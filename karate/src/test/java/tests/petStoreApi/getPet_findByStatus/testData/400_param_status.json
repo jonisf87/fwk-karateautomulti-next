@@ -1,0 +1,13 @@
+{
+  "request": {
+    "headers": {},
+    "params": {
+      "status": 1
+    },
+    "body": {}
+  },
+  "expectedResponse": {
+    "status": 400,
+    "body": {}
+  }
+}

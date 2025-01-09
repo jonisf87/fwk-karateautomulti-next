@@ -1,0 +1,15 @@
+{
+  "request": {
+    "headers": {},
+    "params": {
+      "limit": "Introduce value",
+      "skip": "Introduce value",
+      "select": "Introduce value"
+    },
+    "body": {}
+  },
+  "expectedResponse": {
+    "status": 200,
+    "body": {}
+  }
+}

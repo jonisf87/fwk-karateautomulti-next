@@ -1,0 +1,8 @@
+urls:
+  ejemploApiUrl: "https://ejemplo/"
+  petStoreApiUrl: "https://petstore.swagger.io/v2/"
+  demoApiUrl: "https://dummyjson.com/"
+credentials:
+  ejemploApiUsername: "user1"
+  demoApiUsername: "emilys"
+  demoApiPassword: "emilyspass"

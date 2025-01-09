@@ -1,0 +1,13 @@
+{
+  "request": {
+    "headers": {},
+    "params": {
+      "id": "Introduce value"
+    },
+    "body": {}
+  },
+  "expectedResponse": {
+    "status": 200,
+    "body": {}
+  }
+}

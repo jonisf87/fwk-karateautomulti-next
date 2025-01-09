@@ -1,0 +1,8 @@
+urls:
+  petStoreApiUrl: "https://petstore.swagger.io/v2/"
+  demoApiUrl: "https://dummyjson.com/"
+credentials:
+  demoApiUsername: "emilys"
+  demoApiPassword: "emilyspass"
+
+    

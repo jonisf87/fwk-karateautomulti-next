@@ -1,0 +1,29 @@
+{
+  "request": {
+    "headers": {},
+    "params": {
+    },
+    "body": {
+      "id": 0,
+      "category": {
+        "id": 0,
+        "name": "string"
+      },
+      "name": "doggie",
+      "photoUrls": [
+        "string"
+      ],
+      "tags": [
+        {
+          "id": 0,
+          "name": "string"
+        }
+      ],
+      "status": "available"
+    }
+  },
+  "expectedResponse": {
+    "status": 200,
+    "body": {}
+  }
+}
