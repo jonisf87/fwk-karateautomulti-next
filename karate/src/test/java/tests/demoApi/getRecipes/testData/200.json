@@ -1,0 +1,15 @@
+{
+  "request": {
+    "headers": {},
+    "params": {
+      "limit": "10",
+      "skip": "10",
+      "select": "name,image"
+    },
+    "body": {}
+  },
+  "expectedResponse": {
+    "status": 200,
+    "body": {}
+  }
+}

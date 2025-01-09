@@ -1,0 +1,20 @@
+{
+  "request": {
+    "headers": {},
+    "params": {
+    },
+    "body": {}
+  },
+  "expectedResponse": {
+    "status": 200,
+    "body": {
+      "sold": "#number",
+      "placed": 1,
+      "string": 654,
+      "pending": 12,
+      "available": 260,
+      "Not Available": 1,
+      "Unavailable": 1
+    }
+  }
+}
