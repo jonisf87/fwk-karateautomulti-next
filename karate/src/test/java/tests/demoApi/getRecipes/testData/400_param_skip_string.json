@@ -3,8 +3,8 @@
     "headers": {},
     "params": {
       "limit": "Introduce value",
-      "skip": 10,
-      "select": "name, id"
+      "skip": "False value",
+      "select": "Introduce value"
     },
     "body": {}
   },

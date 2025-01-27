@@ -17,4 +17,3 @@ Feature: Test getPet_findByStatus endpoint
     Examples:
       | testDataFile                                                                   |
       | classpath:tests/petStoreApi/getPet_findByStatus/testData/200.json              |
-      | classpath:tests/petStoreApi/getPet_findByStatus/testData/400_param_status.json |

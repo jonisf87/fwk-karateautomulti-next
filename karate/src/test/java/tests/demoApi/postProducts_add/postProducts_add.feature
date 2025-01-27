@@ -1,6 +1,6 @@
 @postProducts_add @demoApi @regression
 Feature: Test postProducts_add endpoint
-  @JiraId
+  @demo-7
   Scenario Outline: postProducts_add
     * def testData = read('<testDataFile>')
     * def req = testData.request
@@ -15,4 +15,4 @@ Feature: Test postProducts_add endpoint
 
     Examples:
       | testDataFile                                                    |
-      | classpath:tests/demoApi/postProducts_add/testData/200.json |
+      | classpath:tests/demoApi/postProducts_add/testData/201.json |

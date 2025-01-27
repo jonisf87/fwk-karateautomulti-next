@@ -8,7 +8,7 @@
     }
   },
   "expectedResponse": {
-    "status": 200,
-    "body": {}
+    "status": 201,
+    "body": {"id":195,"title":"pencil"}
   }
 }

@@ -1,6 +1,6 @@
 @getProducts_categories @demoApi @regression
 Feature: Test getProducts_categories endpoint
-  @JiraId
+  @demo-3
   Scenario Outline: getProducts_categories
     * def testData = read('<testDataFile>')
     * def req = testData.request

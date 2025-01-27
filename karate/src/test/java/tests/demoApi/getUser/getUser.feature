@@ -1,6 +1,6 @@
 @getUser @demoApi @regression
 Feature: Test getUser endpoint
-  @JiraId
+  @demo-5
   Scenario Outline: getUser
     * def testData = read('<testDataFile>')
     * def req = testData.request
