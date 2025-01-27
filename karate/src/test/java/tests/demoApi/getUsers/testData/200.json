@@ -2,9 +2,9 @@
   "request": {
     "headers": {},
     "params": {
-      "limit": "Introduce value",
-      "skip": "Introduce value",
-      "select": "Introduce value"
+      "limit": 10,
+      "skip": 10,
+      "select": "name, id"
     },
     "body": {}
   },

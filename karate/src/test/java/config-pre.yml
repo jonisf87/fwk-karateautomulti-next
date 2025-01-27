@@ -6,3 +6,5 @@ credentials:
   ejemploApiUsername: "user1"
   demoApiUsername: "emilys"
   demoApiPassword: "emilyspass"
+  demoApiAuthUsername: "emilys"
+  demoApiAuthPassword: "emilyspass"

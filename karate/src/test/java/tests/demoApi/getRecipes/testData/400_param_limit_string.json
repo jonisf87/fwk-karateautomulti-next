@@ -2,14 +2,15 @@
   "request": {
     "headers": {},
     "params": {
-      "limit": "Introduce value",
-      "skip": 10,
-      "select": "name, id"
+      "limit": "false value",
+      "skip": "10",
+      "select": "name,image"
     },
     "body": {}
   },
   "expectedResponse": {
     "status": 400,
     "body": {"message":"Invalid 'limit' - must be a number"}
+
   }
 }

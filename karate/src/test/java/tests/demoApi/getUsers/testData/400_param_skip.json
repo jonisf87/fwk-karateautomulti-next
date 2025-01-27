@@ -2,14 +2,14 @@
   "request": {
     "headers": {},
     "params": {
-      "limit": "Introduce value",
+      "limit": 10,
       "skip": "Introduce value",
-      "select": "Introduce value"
+      "select": "name"
     },
     "body": {}
   },
   "expectedResponse": {
     "status": 400,
-    "body": {}
+    "body": {"message":"Invalid 'skip' - must be a number"}
   }
 }

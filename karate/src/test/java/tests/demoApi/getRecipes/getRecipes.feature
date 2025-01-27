@@ -1,6 +1,7 @@
 @getRecipes @demoApi @regression
 Feature: Test getRecipes endpoint
-  @JiraId
+
+  @demo-4
   Scenario Outline: getRecipes
     * def testData = read('<testDataFile>')
     * def req = testData.request
@@ -16,8 +17,15 @@ Feature: Test getRecipes endpoint
     And match response contains deep expResponse.body
 
     Examples:
-      | testDataFile                                                    |
-      | classpath:tests/demoApi/getRecipes/testData/200.json |
-      | classpath:tests/demoApi/getRecipes/testData/200_param_limit.json |
-      | classpath:tests/demoApi/getRecipes/testData/200_param_skip.json |
-      | classpath:tests/demoApi/getRecipes/testData/200_param_select.json |
+      | testDataFile                                                                |
+      | classpath:tests/demoApi/getRecipes/testData/200.json                        |
+      # param - limit
+      | classpath:tests/demoApi/getRecipes/testData/400_param_limit_boolean.json    |
+      | classpath:tests/demoApi/getRecipes/testData/400_param_limit_string.json     |
+      # param - select
+      | classpath:tests/demoApi/getRecipes/testData/400_param_select_boolean.json   |
+      | classpath:tests/demoApi/getRecipes/testData/400_param_select_int.json       |
+      # param - skip
+      | classpath:tests/demoApi/getRecipes/testData/400_param_skip_boolean.json     |
+      | classpath:tests/demoApi/getRecipes/testData/400_param_skip_string.json      |
+

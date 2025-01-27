@@ -1,7 +1,7 @@
 @getStore_inventory @petStoreApi @regression
 Feature: Test getStore_inventory endpoint
 
-  @id-1
+  @id-3
   Scenario Outline: getStore_inventory
     * def testData = read('<testDataFile>')
     * def req = testData.request

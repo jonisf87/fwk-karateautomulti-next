@@ -7,14 +7,6 @@
   },
   "expectedResponse": {
     "status": 200,
-    "body": {
-      "sold": "#number",
-      "placed": 1,
-      "string": 654,
-      "pending": 12,
-      "available": 260,
-      "Not Available": 1,
-      "Unavailable": 1
-    }
+    "body": {"AVAILABLE":"##number","sold":"##number","Added":"##number","string":"##number","pending":"##number","available":"##number","terminator":"##number"}
   }
 }
