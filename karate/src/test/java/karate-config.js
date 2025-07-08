@@ -6,14 +6,17 @@ function fn() {
   }
   var config = {
     env: env,
-    myVarName: 'someValue'
+   
+    //myVarName: 'someValue'
   }
+  
   karate.set(read('classpath:config-'+env+'.yml'));
-
-  if (env == 'dev') {
+  
+  if (env == 'mock') {
     // customize
     // e.g. config.foo = 'bar';
-  } else if (env == 'e2e') {
+    
+  } else if (env == 'des') {
     // customize
   }
   return config;
