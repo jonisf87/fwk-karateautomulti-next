@@ -11,9 +11,12 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>11</java.version>
         <maven.compiler.version>3.11.0</maven.compiler.version>
-        <maven.surefire.version>3.0.0</maven.surefire.version>
-        <maven.resources.plugin>3.3.1</maven.resources.plugin>
+        <maven.surefire.version>3.0.0</maven.surefire.version>        
         <karate.version>1.4.1</karate.version>
+        <junit.version>5.7.0</junit.version>
+        <fasterxml.version>2.14.0</fasterxml.version>
+        <masterthought.version>5.7.0</masterthought.version>
+        <scala.maven.plugin.version>4.8.1</scala.maven.plugin.version>
     </properties>    
 
     <dependencies>         
@@ -23,10 +26,30 @@
             <version>${karate.version}</version>
             <scope>test</scope>
         </dependency>
+        <!-- JUnit 5 -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>${junit.version}</version> 
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>${junit.version}</version> 
+            <scope>test</scope>
+        </dependency>
+         <!-- fasterxml -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${fasterxml.version}</version>
+        </dependency>
+        <!-- net.masterthought - cucumber-reporting -->
         <dependency>
             <groupId>net.masterthought</groupId>
             <artifactId>cucumber-reporting</artifactId>
-            <version>5.7.0</version>
+            <version>${masterthought.version}</version>
             <scope>test</scope>
             <exclusions>
                 <exclusion>
@@ -35,7 +58,6 @@
                 </exclusion>
             </exclusions>
         </dependency>
-
     </dependencies>
 
     <build>
@@ -66,20 +88,7 @@
                     <argLine>-Dfile.encoding=UTF-8</argLine>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-resources-plugin</artifactId>
-                <version>${maven.resources.plugin}</version>
-            </plugin>
         </plugins>        
-    </build>
-
-    <developers>
-        <developer>
-            <name>Alvaro Gonzalez Fernandez</name>
-            <email>alvaro.gonzalez@izertis.com</email>
-            <organization>Izertis</organization>
-        </developer>
-    </developers>
+    </build>       
     
 </project>
