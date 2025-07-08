@@ -1,10 +1,4 @@
 urls:
-  ejemploApiUrl: "https://ejemplo/"
-  petStoreApiUrl: "https://petstore.swagger.io/v2/"
-  demoApiUrl: "https://dummyjson.com/"
+  dummyJSON_API: 'https://dummyjson.com'
+  dummyJSON_API_products: 'https://dummyjson.com/products'
 credentials:
-  ejemploApiUsername: "user1"
-  demoApiUsername: "emilys"
-  demoApiPassword: "emilyspass"
-  demoApiAuthUsername: "emilys"
-  demoApiAuthPassword: "emilyspass"

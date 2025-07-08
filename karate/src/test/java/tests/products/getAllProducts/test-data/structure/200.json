@@ -1,0 +1,51 @@
+{
+    "request": {
+      "headers": {},
+      "params": {},
+      "body": {}
+    },
+    "expectedResponse": {
+      "status": 200,
+      "body": {
+        "products": [
+          {
+            "id": "#number",
+            "title": "#string",
+            "description": "#string",
+            "category": "#string",
+            "price": "#number",
+            "discountPercentage": "#number",
+            "rating": "#number",
+            "stock": "#number",
+            "tags": "#[]",
+            "brand": "#string",
+            "sku": "#string",
+            "weight": "#number",
+            "dimensions": {
+              "width": "#number",
+              "height": "#number",
+              "depth": "#number"
+            },
+            "warrantyInformation": "#string",
+            "shippingInformation": "#string",
+            "availabilityStatus": "#string",
+            "reviews": "#[]",
+            "returnPolicy": "#string",
+            "minimumOrderQuantity": "#number",
+            "meta": {
+              "createdAt": "#string",
+              "updatedAt": "#string",
+              "barcode": "#string",
+              "qrCode": "#string"
+            },
+            "thumbnail": "#string",
+            "images": "#[]"
+          }
+
+        ],
+        "total": "#number",
+        "skip": "#number",
+        "limit": "#number"
+      }
+  }
+}
