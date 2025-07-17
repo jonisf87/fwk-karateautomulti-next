@@ -1,9 +1,8 @@
 # 🚀 Proyecto de Automatización Karate + Gatling - Izertis
 
-Este proyecto combina **Karate** para pruebas funcionales, proporcionando un framework robusto para pruebas automatizadas.
+Este proyecto utiliza **Karate** como framework principal para pruebas funcionales y de integración, permitiendo la automatización robusta de pruebas E2E sobre servicios REST y microservicios.
 
 ---
-
 
 
 ## � Cómo Ejecutar el Proyecto
@@ -59,7 +58,6 @@ java -jar target/karate-demo-micro-0.0.1-SNAPSHOT.jar
 # El microservicio quedará disponible en http://localhost:8080/products
 ```
 
-
 ### 4. Ejecutar Pruebas
 
 #### Comandos básicos para ejecutar pruebas Karate
@@ -94,60 +92,6 @@ mvn clean test "-Dkarate.options=--tags @yourTag" "-Dkarate.env=yourEnv"
    mvn clean install
    mvn clean test -Dkarate.env=local -D"karate.options=--tags @local"
    ```
-
-
-### 1. Clonar el Repositorio
-
-```bash
-git clone <repository-url>
-cd auto-karate-fw
-```
-
-### 2. Inicializar el microservicio local (opcional para pruebas locales)
-
-```bash
-cd code
-mvn clean install
-java -jar target/karate-demo-micro-0.0.1-SNAPSHOT.jar
-# El microservicio quedará disponible en http://localhost:8080/products
-```
-
-
-### 3. Ejecutar Pruebas
-
-#### Comandos básicos para ejecutar pruebas Karate
-
-```bash
-# Comando básico para ejecutar pruebas Karate
-mvn clean test
-
-# Agregar tags específicos
-mvn clean test "-Dkarate.options=--tags @yourTag"
-
-# Configurar el entorno (por defecto se usa el configurado en karate-config.js)
-mvn clean test "-Dkarate.env=yourEnv"
-
-# Tag y entorno
-mvn clean test "-Dkarate.options=--tags @yourTag" "-Dkarate.env=yourEnv"
-```
-
-#### Ejecución local (microservicio propio)
-
-1. Inicializa el microservicio demo:
-   ```bash
-   cd code
-   mvn clean install
-   java -jar target/karate-demo-micro-0.0.1-SNAPSHOT.jar
-   # El microservicio quedará disponible en http://localhost:8080/products
-   ```
-
-2. En otra terminal, ejecuta las pruebas locales:
-   ```bash
-   cd e2e/karate
-   mvn clean install
-   mvn clean test -Dkarate.env=local -D"karate.options=--tags @local"
-   ```
-
 
 ## 📁 Estructura del Proyecto
 
