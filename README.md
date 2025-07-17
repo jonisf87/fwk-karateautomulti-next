@@ -4,7 +4,6 @@ Este proyecto utiliza **Karate** como framework principal para pruebas funcional
 
 ---
 
-
 ## � Cómo Ejecutar el Proyecto
 
 ### 0. Prerrequisitos
@@ -46,8 +45,6 @@ cd e2e/karate
 mvn clean install
 ```
 Esto descargará todas las dependencias necesarias para ejecutar los tests E2E con Karate.
-
----
 
 ### 3. Inicializar el microservicio local (opcional para pruebas locales)
 
@@ -93,6 +90,8 @@ mvn clean test "-Dkarate.options=--tags @yourTag" "-Dkarate.env=yourEnv"
    mvn clean test -Dkarate.env=local -D"karate.options=--tags @local"
    ```
 
+---
+
 ## 📁 Estructura del Proyecto
 
 El proyecto está organizado de la siguiente manera:
@@ -124,7 +123,6 @@ auto-karate-fw/
 │       └── .gitignore
 └── README.md
 ```
-
 
 ### Descripción de Archivos y Carpetas
 
@@ -196,7 +194,6 @@ Tras la ejecución de las pruebas, se generan varios reportes en la carpeta `tar
    - Ubicación: `target/cucumber-html-reports/`
    - Archivo: `overview-failures.html`
    - Descripción: Lista los escenarios fallidos (si los hay) para facilitar su análisis.
-
 
 ### Uso del Script `combine-reports.js`
 
