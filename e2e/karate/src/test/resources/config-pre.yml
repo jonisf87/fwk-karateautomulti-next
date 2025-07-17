@@ -1,0 +1,4 @@
+urls:
+  dummyJSON_API: 'https://dummyjson.com'
+  dummyJSON_API_products: 'https://dummyjson.com/products'
+credentials:

@@ -4,17 +4,20 @@ Este proyecto combina **Karate** para pruebas funcionales, proporcionando un fra
 
 ---
 
-## 📋 Dependencias Necesarias
 
-Para ejecutar este proyecto, asegúrate de tener instaladas las siguientes herramientas y dependencias:
 
-- ☕ **Java 17** o superior: Lenguaje base del proyecto.
-- 📦 **Maven 3.6** o superior: Para la gestión de dependencias y ejecución de pruebas.
-- 🌐 **Node.js**: Necesario para ejecutar el script `combine-reports.js`.
-- 🔧 **Git**: Para clonar y gestionar el repositorio.
+## � Cómo Ejecutar el Proyecto
 
-### Verificar Instalaciones
+### 0. Prerrequisitos
 
+Asegúrate de tener instaladas las siguientes herramientas globales:
+
+- ☕ **Java 17** o superior
+- 📦 **Maven 3.6** o superior
+- 🌐 **Node.js**
+- 🔧 **Git**
+
+Puedes verificar las instalaciones con:
 ```bash
 java -version    # Debe mostrar Java 17+
 mvn -version     # Debe mostrar Maven 3.6+
@@ -22,26 +25,44 @@ node -v          # Debe mostrar Node.js instalado
 git --version    # Para clonar y cambiar ramas
 ```
 
----
-
-## 🚀 Cómo Ejecutar el Proyecto
-
 ### 1. Clonar el Repositorio
 
 ```bash
 git clone <repository-url>
-cd karate
+cd auto-karate-fw
 ```
 
-### 2. Instalar Dependencias
+### 2. Instalar dependencias
 
+#### Microservicio (carpeta `code`)
 ```bash
+cd code
 mvn clean install
 ```
+Esto descargará todas las dependencias necesarias para el microservicio y generará el JAR ejecutable.
 
-### 3. Ejecutar Pruebas
+#### Karate (carpeta `e2e/karate`)
+```bash
+cd e2e/karate
+mvn clean install
+```
+Esto descargará todas las dependencias necesarias para ejecutar los tests E2E con Karate.
 
-#### Pruebas Funcionales con Karate
+---
+
+### 3. Inicializar el microservicio local (opcional para pruebas locales)
+
+```bash
+cd code
+mvn clean install
+java -jar target/karate-demo-micro-0.0.1-SNAPSHOT.jar
+# El microservicio quedará disponible en http://localhost:8080/products
+```
+
+
+### 4. Ejecutar Pruebas
+
+#### Comandos básicos para ejecutar pruebas Karate
 
 ```bash
 # Comando básico para ejecutar pruebas Karate
@@ -57,45 +78,129 @@ mvn clean test "-Dkarate.env=yourEnv"
 mvn clean test "-Dkarate.options=--tags @yourTag" "-Dkarate.env=yourEnv"
 ```
 
+#### Ejecución local (microservicio propio)
+
+1. Inicializa el microservicio demo:
+   ```bash
+   cd code
+   mvn clean install
+   java -jar target/karate-demo-micro-0.0.1-SNAPSHOT.jar
+   # El microservicio quedará disponible en http://localhost:8080/products
+   ```
+
+2. En otra terminal, ejecuta las pruebas locales:
+   ```bash
+   cd e2e/karate
+   mvn clean install
+   mvn clean test -Dkarate.env=local -D"karate.options=--tags @local"
+   ```
+
+
+### 1. Clonar el Repositorio
+
+```bash
+git clone <repository-url>
+cd auto-karate-fw
+```
+
+### 2. Inicializar el microservicio local (opcional para pruebas locales)
+
+```bash
+cd code
+mvn clean install
+java -jar target/karate-demo-micro-0.0.1-SNAPSHOT.jar
+# El microservicio quedará disponible en http://localhost:8080/products
+```
+
+
+### 3. Ejecutar Pruebas
+
+#### Comandos básicos para ejecutar pruebas Karate
+
+```bash
+# Comando básico para ejecutar pruebas Karate
+mvn clean test
+
+# Agregar tags específicos
+mvn clean test "-Dkarate.options=--tags @yourTag"
+
+# Configurar el entorno (por defecto se usa el configurado en karate-config.js)
+mvn clean test "-Dkarate.env=yourEnv"
+
+# Tag y entorno
+mvn clean test "-Dkarate.options=--tags @yourTag" "-Dkarate.env=yourEnv"
+```
+
+#### Ejecución local (microservicio propio)
+
+1. Inicializa el microservicio demo:
+   ```bash
+   cd code
+   mvn clean install
+   java -jar target/karate-demo-micro-0.0.1-SNAPSHOT.jar
+   # El microservicio quedará disponible en http://localhost:8080/products
+   ```
+
+2. En otra terminal, ejecuta las pruebas locales:
+   ```bash
+   cd e2e/karate
+   mvn clean install
+   mvn clean test -Dkarate.env=local -D"karate.options=--tags @local"
+   ```
+
+
 ## 📁 Estructura del Proyecto
 
 El proyecto está organizado de la siguiente manera:
 
 ```
-karate/
-├── src/
-│   ├── test/
-│   │   └── java/
-│   │     ├── tests/                 # Pruebas funcionales y de rendimiento
-│   │     │   ├── KarateRunnerTest.java # Clase principal para ejecutar pruebas Karate
-│   │     │   └──products/           # Pruebas relacionadas con api products
-│   │     ├── karate-config.js       # Configuración global de Karate
-│   │     ├── log4j2.properties      # Configuración de logging
-│   │     ├── logback-test.xml       # Configuración de logging para pruebas
-│   │     └── config-pre.yml         # Configuración específica para el entorno "pre"
-├── target/                             # Archivos generados
-├── .mvn/                               # Configuración del wrapper de Maven
-│   └── wrapper/
-│       ├── MavenWrapperDownloader.java # Descargador del wrapper de Maven
-│       └── maven-wrapper.properties    # Configuración del wrapper
-├── combine-reports.js                  # Script para combinar reportes JSON de Karate
-├── pom.xml                             # Configuración Maven
-└── README.md                           # Documentación del proyecto
+auto-karate-fw/
+├── code/                        # Microservicio Java Spring Boot
+│   ├── src/
+│   └── pom.xml
+├── e2e/
+│   └── karate/
+│       ├── src/
+│       │   └── test/
+│       │       ├── java/                       # Código Java de tests y utilidades
+│       │       │   └── tests/                  # (Ej: KarateRunnerTest.java, utils, etc.)
+│       │       └── resources/                  # Features y configuración Karate
+│       │           ├── karate-config.js        # Configuración global Karate
+│       │           ├── config-local.yml        # Configuración local
+│       │           ├── config-pre.yml          # Configuración pre
+│       │           ├── log4j2.properties       # Logging
+│       │           ├── logback-test.xml        # Logging para pruebas
+│       │           └── tests/                  # Features Karate organizados por dominio
+│       │               └── products/
+│       │                   ├── getProductsLocal/   # Prueba local
+│       │                   ├── getAllProducts/     # Prueba remota
+│       │                   └── ...
+│       ├── combine-reports.js                  # Script para combinar reportes
+│       ├── pom.xml                             # Configuración Maven para Karate
+│       └── .gitignore
+└── README.md
 ```
+
 
 ### Descripción de Archivos y Carpetas
 
-- **`src/test/java/tests/`**: Contiene las pruebas funcionales y de rendimiento.
-  - **`KarateRunnerTest.java`**: Clase principal para ejecutar las pruebas Karate en paralelo y generar reportes.
-  - **`products/`**: Carpeta con pruebas relacionadas con api products.
-- **`src/test/java/karate-config.js`**: Archivo de configuración global de Karate para gestionar entornos y variables.
-- **`src/test/java/log4j2.properties`**: Configuración de logging para las pruebas.
-- **`src/test/java/logback-test.xml`**: Configuración de logging para pruebas.
-- **`src/test/java/config-pre.yml`**: Archivo de configuración específico para el entorno "pre".
-- **`target/`**: Carpeta generada automáticamente que contiene resultados de pruebas, reportes y otros archivos temporales.
-- **`.mvn/wrapper/`**: Configuración del wrapper de Maven para garantizar la compatibilidad de versiones.
-- **`combine-reports.js`**: Script Node.js que combina los reportes JSON generados por Karate en un único archivo, haciéndolo compatible con herramientas como Jira.
-- **`pom.xml`**: Archivo de configuración Maven que define las dependencias y plugins necesarios.
+- **`code/`**: Microservicio Java Spring Boot para pruebas locales.
+- **`e2e/karate/`**: Proyecto de automatización Karate.
+  - **`src/test/java/`**: Código Java de tests y utilidades.
+    - **`tests/`**: Clases de test (por ejemplo, `KarateRunnerTest.java`).
+    - **`utils/`**: Clases utilitarias Java para soporte de tests Karate.
+  - **`src/test/resources/`**: Configuración, logs y features Karate.
+    - **`karate-config.js`**: Configuración global de Karate.
+    - **`config-local.yml`**: Configuración para entorno local.
+    - **`config-pre.yml`**: Configuración para entorno pre.
+    - **`log4j2.properties`** y **`logback-test.xml`**: Logging.
+    - **`tests/`**: Features Karate organizados por dominio.
+      - **`products/getProductsLocal/`**: Pruebas locales contra el microservicio demo.
+      - **`products/getAllProducts/`**: Pruebas remotas contra el entorno pre/productivo.
+      - ...otras carpetas de pruebas...
+  - **`combine-reports.js`**: Script para combinar reportes JSON.
+  - **`pom.xml`**: Configuración Maven para Karate.
+  - **`.gitignore`**: Exclusiones de control de versiones.
 - **`README.md`**: Documentación del proyecto.
 
 ---

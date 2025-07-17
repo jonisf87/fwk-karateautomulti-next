@@ -1,9 +1,12 @@
 
 Feature: Obtener productos del microservicio local
 
+  Background:
+    * if (!urls) karate.fail('No se ha encontrado la variable "urls" en el contexto. Revisa la configuración de entorno y los ficheros YAML.')
+
   @local
   Scenario: Obtener todos los productos
-    Given url dummyJSON_API_products
+    Given url urls.demoApplicationUrl
     When method get
     Then status 200
     And match response == 
