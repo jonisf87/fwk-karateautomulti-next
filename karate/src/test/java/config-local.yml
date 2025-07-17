@@ -1,0 +1,3 @@
+dummyJSON_API: 'http://localhost:8080'
+dummyJSON_API_products: 'http://localhost:8080/products'
+credentials:
