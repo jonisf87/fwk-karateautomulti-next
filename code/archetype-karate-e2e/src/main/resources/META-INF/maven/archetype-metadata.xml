@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<archetype-descriptor
+        xmlns="http://maven.apache.org/plugins/maven-archetype-plugin/archetype-descriptor/1.1.0"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://maven.apache.org/plugins/maven-archetype-plugin/archetype-descriptor/1.1.0 https://maven.apache.org/xsd/archetype-descriptor-1.1.0.xsd"
+        name="archetype-karate-e2e">
+    <requiredProperties>
+        <requiredProperty key="groupId"/>
+        <requiredProperty key="artifactId"/>
+        <requiredProperty key="version">
+            <defaultValue>1.0.0-SNAPSHOT</defaultValue>
+        </requiredProperty>
+        <requiredProperty key="package"/>
+        <requiredProperty key="includeCodeModule">
+            <defaultValue>false</defaultValue>
+        </requiredProperty>
+        <requiredProperty key="karateVersion">
+            <defaultValue>1.4.1</defaultValue>
+        </requiredProperty>
+    </requiredProperties>
+
+    <fileSets>
+        <!-- FileSet raíz: asegura filtrado del pom padre -->
+        <fileSet>
+            <directory>.</directory>
+            <includes>
+                <include>pom.xml</include>
+            </includes>
+            <filtered>true</filtered>
+        </fileSet>
+        <fileSet>
+            <directory>e2e/karate</directory>
+            <includes>
+                <include>pom.xml</include>
+                <include>src/test/java/**</include>
+                <include>src/test/resources/**</include>
+            </includes>
+            <filtered>true</filtered>
+        </fileSet>
+        <!-- No se soportan directivas Velocity aquí: se incluye siempre 'code'.
+             El script archetype-post-generate.groovy eliminará el módulo y carpeta si includeCodeModule=false. -->
+        <fileSet>
+            <directory>code</directory>
+            <includes>
+                <include>pom.xml</include>
+                <include>src/main/java/**</include>
+                <include>src/main/resources/**</include>
+            </includes>
+            <filtered>true</filtered>
+        </fileSet>
+    </fileSets>
+</archetype-descriptor>
