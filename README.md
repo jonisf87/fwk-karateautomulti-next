@@ -4,7 +4,7 @@ Este proyecto utiliza **Karate** como framework principal para pruebas funcional
 
 ---
 
-## � Cómo Ejecutar el Proyecto
+## 🚀 Cómo Ejecutar el Proyecto
 
 ### 0. Prerrequisitos
 
@@ -98,6 +98,7 @@ El proyecto está organizado de la siguiente manera:
 
 ```
 auto-karate-fw/
+├── code/archetype-karate-e2e/     # Arquetipo Maven para generar nuevos proyectos Karate E2E
 ├── code/                        # Microservicio Java Spring Boot
 │   ├── src/
 │   └── pom.xml
@@ -121,12 +122,19 @@ auto-karate-fw/
 │       ├── combine-reports.js                  # Script para combinar reportes
 │       ├── pom.xml                             # Configuración Maven para Karate
 │       └── .gitignore
+├── code/docs/                    # Sitio Antora (UI local, overrides y packaging)
+│   ├── antora-playbook.dev.yml   # Dev/offline (usa carpeta UI extraída)
+│   ├── antora-playbook.yml       # Prod (usa ui/ui-bundle.zip)
+│   ├── ui/ui-bundle-extract/     # UI extraída + overrides aplicados
+│   ├── ui/ui-bundle.zip          # Bundle UI para builds deterministas (generado)
+│   └── scripts/bundle-ui.js      # Empaquetado UI con Node (sin zip/bash)
 └── README.md
 ```
 
 ### Descripción de Archivos y Carpetas
 
 - **`code/`**: Microservicio Java Spring Boot para pruebas locales.
+- **`code/archetype-karate-e2e/`**: Arquetipo Maven que permite generar proyectos de automatización Karate con (o sin) un módulo opcional de microservicio Spring Boot. Útil para estandarizar la creación rápida de nuevos repos.
 - **`e2e/karate/`**: Proyecto de automatización Karate.
   - **`src/test/java/`**: Código Java de tests y utilidades.
     - **`tests/`**: Clases de test (por ejemplo, `KarateRunnerTest.java`).
@@ -144,6 +152,113 @@ auto-karate-fw/
   - **`pom.xml`**: Configuración Maven para Karate.
   - **`.gitignore`**: Exclusiones de control de versiones.
 - **`README.md`**: Documentación del proyecto.
+
+---
+
+
+## 📚 Documentación (Antora)
+
+Construcción del sitio de documentación:
+
+```bash
+# Dev/offline (UI extraída, iteración rápida)
+cd code/docs
+npm install
+npm run build:dev
+npm run preview  # http://localhost:5080
+
+# Prod (determinista con zip UI)
+npm run ui:bundle
+npm run build:prod
+```
+
+Personalizaciones de UI aplicadas:
+- Header: sin Products/Services ni buscador.
+- Footer: contenido personalizado.
+- Panel "Explore" eliminado.
+
+---
+
+## 🧬 Arquetipo Maven: `archetype-karate-e2e`
+
+El repositorio incluye un arquetipo localizado en `code/archetype-karate-e2e` que permite crear un nuevo proyecto Karate listo para usar, con opción de incluir un microservicio demo.
+
+### 1. Instalar/Actualizar el arquetipo localmente
+
+Desde la carpeta raíz del repo:
+
+```bash
+mvn -q -f code/archetype-karate-e2e/pom.xml clean install
+```
+
+Esto instalará el arquetipo en tu repositorio Maven local (`~/.m2`).
+
+### 2. Generar un nuevo proyecto SIN micro (modo offline por defecto)
+
+```bash
+mvn archetype:generate \
+   -DarchetypeGroupId=com.example.archetypes \
+   -DarchetypeArtifactId=archetype-karate-e2e \
+   -DarchetypeVersion=1.0.6-SNAPSHOT \
+   -DgroupId=com.acme.demo \
+   -DartifactId=demo-e2e-no-micro \
+   -Dversion=1.0.0-SNAPSHOT \
+   -DincludeCodeModule=false \
+   -DinteractiveMode=false
+```
+
+Resultado: proyecto multi-módulo sólo con `e2e/karate` y un feature offline (sin HTTP) que pasa siempre.
+
+### 3. Generar un proyecto CON micro
+
+```bash
+mvn archetype:generate \
+   -DarchetypeGroupId=com.example.archetypes \
+   -DarchetypeArtifactId=archetype-karate-e2e \
+   -DarchetypeVersion=1.0.6-SNAPSHOT \
+   -DgroupId=com.acme.demo \
+   -DartifactId=demo-e2e-con-micro \
+   -Dversion=1.0.0-SNAPSHOT \
+   -DincludeCodeModule=true \
+   -DinteractiveMode=false
+```
+
+Resultado: proyecto multi-módulo con:
+* `code/` Spring Boot (endpoint `/products`)
+* `e2e/karate/` feature que hace GET real contra el micro.
+
+### 4. Variables disponibles
+
+| Propiedad              | Descripción                                                  | Ejemplo |
+|------------------------|--------------------------------------------------------------|---------|
+| `includeCodeModule`    | `true` para incluir microservicio, `false` para sólo tests   | true    |
+| `karateVersion`        | Versión de Karate usada en el módulo de pruebas              | 1.4.1   |
+| `groupId` / `artifactId` | Coordenadas Maven del nuevo proyecto                      |         |
+
+Si algún placeholder no se filtra (corte de red o mirrors), un script post-generación aplica reemplazos de respaldo.
+
+### 5. Flujo típico tras generar
+
+```bash
+cd demo-e2e-con-micro
+mvn clean install -DskipTests
+mvn -pl code spring-boot:run &   # arranca micro (o usar java -jar code/target/*.jar)
+mvn -pl e2e/karate test          # ejecuta tests Karate
+```
+
+### 6. Estructura generada (con micro)
+
+```
+demo-e2e-con-micro/
+├── pom.xml (parent)
+├── code/ (microservicio Spring Boot)
+└── e2e/karate/ (tests Karate)
+```
+
+### 7. Notas
+* El feature por defecto en modo con micro valida lista de productos.
+* En modo sin micro se usa un feature offline para evitar dependencias de red / puertos.
+* Puedes añadir mocks embebidos activando el ejemplo comentado en el feature offline.
 
 ---
 

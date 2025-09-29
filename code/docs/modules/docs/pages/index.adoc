@@ -1,0 +1,70 @@
+= Documentación con Antora (code/docs)
+:page-component: auto-karate
+// GENERATED-BY: ingest-readmes.js
+
+++++
+<h1>Documentación con Antora (code/docs)</h1>
+<p>Este directorio contiene el sitio de documentación generado con Antora 3.
+Incluye búsqueda (Lunr), ingesta automática de READMEs y un modo de desarrollo offline.</p>
+<h2>Requisitos</h2>
+<ul>
+<li>Node.js 18+ (recomendado 18.x o 20.x)</li>
+<li>No necesitas instalar Antora globalmente; se usa vía <code>npx</code> con las dependencias locales.</li>
+</ul>
+<h2>Scripts disponibles</h2>
+<p>Desde <code>code/docs/</code>:</p>
+<ul>
+<li><code>npm run ingest</code>: Convierte los README.md a páginas AsciiDoc (módulos ROOT, karate, microservice, archetype y este <code>docs</code>).</li>
+<li><code>npm run build</code> (producción): Construye el sitio con el playbook principal (requiere red si el UI bundle es remoto).</li>
+<li><code>npm run build:dev</code> (desarrollo/offline): Construye el sitio con <code>antora-playbook.dev.yml</code> sin descargas.</li>
+<li><code>npm run preview</code>: Construye en modo dev y sirve el sitio en <code>http://localhost:5080</code>.</li>
+<li><code>npm run watch</code>: Vuelve a construir en modo dev al detectar cambios en módulos, playbooks y READMEs mapeados.</li>
+<li><code>npm run clean</code>: Elimina la carpeta <code>build/</code>.</li>
+</ul>
+<h2>Modo offline (recomendado en entornos corporativos)</h2>
+<p>El playbook de desarrollo (<code>antora-playbook.dev.yml</code>) está configurado con <code>runtime.fetch: false</code> y usa un UI bundle local en <code>./ui/ui-bundle.zip</code>.</p>
+<ol>
+<li>Asegúrate de colocar un ZIP válido del UI de Antora en <code>code/docs/ui/ui-bundle.zip</code>.<ul>
+<li>Opción A: Descargar un release del UI por tu cuenta y copiar el ZIP aquí.</li>
+<li>Opción B: Construir un UI propio y empaquetarlo como ZIP.</li>
+</ul>
+</li>
+<li>Ejecuta:</li>
+</ol>
+<pre><code class="language-bash">npm run build:dev
+npm run preview
+</code></pre>
+<h2>Estructura de módulos del sitio</h2>
+<ul>
+<li>ROOT: Página principal del proyecto.</li>
+<li>karate: Detalles del módulo E2E (Karate tests).</li>
+<li>microservice: Detalles del microservicio de ejemplo (<code>code</code>).</li>
+<li>archetype: Arquetipo Maven para generar proyectos E2E.</li>
+<li>docs: Esta página con instrucciones del sitio Antora.</li>
+</ul>
+<h2>Ingesta de READMEs</h2>
+<p>El script <code>ingest-readmes.js</code> convierte markdown → HTML y lo inserta en páginas AsciiDoc con bloque passthrough (<code>++++</code>).</p>
+<ul>
+<li>Añade un comentario de control <code>// GENERATED-BY: ingest-readmes.js</code> para reconocer páginas generadas automáticamente.</li>
+<li>Si una página fue editada manualmente y no contiene el comentario, no se sobreescribe.</li>
+</ul>
+<p>Fuentes mapeadas actualmente:</p>
+<ul>
+<li><code>../../README.md</code> → <code>modules/ROOT/pages/index.adoc</code></li>
+<li><code>../../e2e/karate/README.md</code> → <code>modules/karate/pages/index.adoc</code></li>
+<li><code>../../code/README.md</code> → <code>modules/microservice/pages/index.adoc</code></li>
+<li><code>../../code/archetype-karate-e2e/README.md</code> → <code>modules/archetype/pages/index.adoc</code></li>
+<li><code>./README.md</code> → <code>modules/docs/pages/index.adoc</code></li>
+</ul>
+<h2>Solución de problemas</h2>
+<ul>
+<li>“UI bundle inválido o no encontrado”: Verifica que <code>ui/ui-bundle.zip</code> es un ZIP válido (no HTML). Puedes comprobarlo con <code>unzip -t ui/ui-bundle.zip</code>.</li>
+<li>“Fallo descargando UI remoto”: Usa <code>build:dev</code> (offline) o sitúa un UI local.</li>
+<li>“Cambios no se reflejan”: Ejecuta <code>npm run ingest</code> y limpia la caché de Antora si fuera necesario (<code>rm -rf .antora-cache</code>).</li>
+<li>WSL/DNS: Si tienes cortes de red, usa el modo offline y/o configura DNS estables.</li>
+</ul>
+<h2>Salida</h2>
+<ul>
+<li>El sitio renderizado se genera en <code>code/docs/build/site/</code>.</li>
+</ul>
+++++
