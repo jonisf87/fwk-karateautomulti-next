@@ -1,0 +1,13 @@
+= Módulo Microservicio (code)
+:page-component: auto-karate
+
+++++
+<h1>Módulo Microservicio (code)</h1>
+<p>Este módulo opcional contiene un microservicio Spring Boot de ejemplo con un endpoint <code>/products</code>.</p>
+<ul>
+<li>Arranque local: <code>mvn -q -f code/pom.xml spring-boot:run</code></li>
+<li>Puerto configurable con <code>APP_PORT</code> o <code>server.port</code>.</li>
+<li>Genera dos productos de ejemplo.</li>
+</ul>
+<p>Se usa para apoyar pruebas E2E que apunten a un servicio real.</p>
+++++

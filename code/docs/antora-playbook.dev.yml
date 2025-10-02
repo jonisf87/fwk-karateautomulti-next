@@ -1,0 +1,32 @@
+runtime:
+  fetch: false
+site:
+  title: "Auto Karate Docs (Dev)"
+  start_page: auto-karate::index.adoc
+content:
+  sources:
+    - url: ../..
+      branches: HEAD
+      start_path: code/docs
+ui:
+  bundle:
+    url: ./ui/ui-bundle-extract
+    snapshot: true
+  supplemental_files:
+    - path: ./ui/supplemental/partials/header-content.hbs
+      target: partials/header-content.hbs
+    - path: ./ui/supplemental/partials/footer-scripts.hbs
+      target: partials/footer-scripts.hbs
+    - path: ./ui/supplemental/partials/footer-content.hbs
+      target: partials/footer-content.hbs
+    - path: ./ui/supplemental/partials/nav-explore.hbs
+      target: partials/nav-explore.hbs
+asciidoc:
+  attributes:
+    page-pagination: ''
+    sectanchors: ''
+    source-highlighter: highlightjs
+antora:
+  extensions: []
+output:
+  dir: ./build/site

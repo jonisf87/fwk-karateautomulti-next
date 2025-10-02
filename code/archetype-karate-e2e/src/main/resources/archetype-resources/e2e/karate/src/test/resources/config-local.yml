@@ -1,0 +1,2 @@
+app:
+  demoApplicationUrl: "http://localhost:${APP_PORT}"

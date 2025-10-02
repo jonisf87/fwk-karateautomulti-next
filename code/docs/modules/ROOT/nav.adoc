@@ -1,0 +1,5 @@
+* xref:index.adoc[Inicio]
+* xref:karate:index.adoc[Karate E2E]
+* xref:microservice:index.adoc[Microservicio demo]
+* xref:archetype:index.adoc[Arquetipo Karate E2E]
+* xref:docs:index.adoc[Docs del sitio]
