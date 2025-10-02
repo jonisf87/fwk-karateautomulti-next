@@ -1,0 +1,5 @@
+name: auto-karate
+title: Auto Karate Docs
+version: ~
+nav:
+  - modules/ROOT/nav.adoc

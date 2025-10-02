@@ -1,0 +1,15 @@
+= Changelog
+:page-component: auto-karate
+// GENERATED-BY: generate-changelog.js
+
+// Puedes añadir notas manuales arriba o debajo del bloque generado.
+
+// BEGIN-GENERATED: generate-changelog.js
+// No edites entre estos marcadores; usa `npm run changelog`
+
+== Histórico automático
+
+No es posible generar el histórico automáticamente (no hay commits o git no está disponible).
+// END-GENERATED: generate-changelog.js
+
+

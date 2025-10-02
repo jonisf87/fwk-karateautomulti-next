@@ -1,0 +1,17 @@
+name: auto-karate-ui
+version: 1.0.0
+
+# Tell Antora which folders are static assets to publish under _/
+static_files:
+  - css
+  - js
+  - img
+  - font
+
+# Template locations
+partials:
+  - partials
+layouts:
+  - layouts
+helpers:
+  - helpers

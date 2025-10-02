@@ -100,3 +100,14 @@ msedgedriver*
 # Temporary files
 *.tmp
 *.temp 
+
+# Node / npm
+node_modules/
+package-lock.json
+!code/docs/package-lock.json
+
+# Demo projects (generated examples) - exclude from VCS
+/demo-e2e-no-micro/
+/demo-e2e-con-micro/
+# Any other future demo-e2e-* projects at repo root
+/demo-e2e-*/
