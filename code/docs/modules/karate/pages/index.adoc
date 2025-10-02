@@ -1,0 +1,13 @@
+= Módulo E2E Karate
+:page-component: auto-karate
+
+++++
+<h1>Módulo E2E Karate</h1>
+<p>Este módulo contiene las pruebas end-to-end escritas con Karate.</p>
+<ul>
+<li>Ejecución local: <code>mvn -q -f e2e/karate/pom.xml test</code></li>
+<li>Estructura de tests en <code>src/test/resources/tests</code></li>
+<li>Runner JUnit5 en <code>src/test/java</code></li>
+</ul>
+<p>Más detalles sobre convenciones, hooks y buenas prácticas se documentarán aquí.</p>
+++++
