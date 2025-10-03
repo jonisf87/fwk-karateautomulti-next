@@ -44,6 +44,7 @@ jobs:
             mv auto-karate/* ./
             rm -rf auto-karate
           fi
+          touch .nojekyll
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
