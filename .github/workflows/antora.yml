@@ -20,7 +20,7 @@ jobs:
           node-version: '20'
 
       - name: Install Antora
-        run: npm install -g @antora/cli @antora/site-generator-default
+        run: npm install -g @antora/cli @antora/site-generator-default @antora/site-generator
 
       - name: Build Antora site
         working-directory: code/docs
