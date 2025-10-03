@@ -22,6 +22,14 @@ jobs:
       - name: Install Antora
         run: npm install -g @antora/cli @antora/site-generator-default @antora/site-generator
 
+      - name: Install docs dependencies
+        working-directory: code/docs
+        run: npm ci
+
+      - name: Bundle Antora UI
+        working-directory: code/docs
+        run: npm run ui:bundle
+
       - name: Build Antora site
         working-directory: code/docs
         run: antora antora-playbook.yml
