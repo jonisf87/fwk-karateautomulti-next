@@ -5,7 +5,7 @@ site:
     google_analytics: ""
 content:
   sources:
-    - url: ../..
+    - url: .
       branches: HEAD
       start_path: code/docs
 ui:
@@ -31,4 +31,4 @@ antora:
 urls:
   redirect_facility: disabled
 output:
-  dir: './build/site'
+  dir: ./build/site
