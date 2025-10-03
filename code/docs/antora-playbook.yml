@@ -31,4 +31,4 @@ antora:
 urls:
   redirect_facility: disabled
 output:
-  dir: ./build/site
+  dir: './build/site'
