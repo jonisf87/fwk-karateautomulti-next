@@ -35,6 +35,16 @@ jobs:
         working-directory: code/docs
         run: antora antora-playbook.yml
 
+      - name: Flatten site output
+        working-directory: code/docs/build/site
+        shell: bash
+        run: |
+          shopt -s dotglob
+          if [ -d auto-karate ]; then
+            mv auto-karate/* ./
+            rm -rf auto-karate
+          fi
+
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
