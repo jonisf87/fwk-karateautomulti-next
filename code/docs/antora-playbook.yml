@@ -5,7 +5,7 @@ site:
     google_analytics: ""
 content:
   sources:
-    - url: .
+    - url: ../..
       branches: HEAD
       start_path: code/docs
 ui:
