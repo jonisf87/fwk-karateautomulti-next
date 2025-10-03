@@ -5,7 +5,7 @@
 ++++
 <h1>Documentación con Antora (code/docs)</h1>
 <p>Este directorio contiene el sitio de documentación generado con Antora 3.
-Incluye búsqueda (Lunr), ingesta automática de READMEs y un modo de desarrollo offline.</p>
+Incluye ingesta automática de READMEs y un modo de desarrollo offline. La búsqueda ha sido eliminada.</p>
 <h2>Requisitos</h2>
 <ul>
 <li>Node.js 18+ (recomendado 18.x o 20.x)</li>
@@ -15,20 +15,25 @@ Incluye búsqueda (Lunr), ingesta automática de READMEs y un modo de desarrollo
 <p>Desde <code>code/docs/</code>:</p>
 <ul>
 <li><code>npm run ingest</code>: Convierte los README.md a páginas AsciiDoc (módulos ROOT, karate, microservice, archetype y este <code>docs</code>).</li>
-<li><code>npm run build</code> (producción): Construye el sitio con el playbook principal (requiere red si el UI bundle es remoto).</li>
-<li><code>npm run build:dev</code> (desarrollo/offline): Construye el sitio con <code>antora-playbook.dev.yml</code> sin descargas.</li>
+<li><code>npm run build</code> (producción con fetch): Construye con el playbook principal y <code>--fetch</code> (no necesario en entornos cerrados).</li>
+<li><code>npm run build:prod</code> (producción local): Construye con <code>antora-playbook.yml</code> usando <code>ui/ui-bundle.zip</code>.</li>
+<li><code>npm run build:dev</code> (desarrollo/offline): Construye con <code>antora-playbook.dev.yml</code> sin descargas (usa UI extraída).</li>
 <li><code>npm run preview</code>: Construye en modo dev y sirve el sitio en <code>http://localhost:5080</code>.</li>
 <li><code>npm run watch</code>: Vuelve a construir en modo dev al detectar cambios en módulos, playbooks y READMEs mapeados.</li>
-<li><code>npm run clean</code>: Elimina la carpeta <code>build/</code>.</li>
+<li><code>npm run preview</code>: Servidor local del sitio (5080).</li>
+<li><code>npm run clean</code>: Elimina <code>build/</code> y <code>.antora-cache/</code>.</li>
+<li><code>npm run ui:bundle</code>: Genera <code>ui/ui-bundle.zip</code> inyectando overrides sobre <code>ui/ui-bundle-extract/</code>.</li>
 </ul>
 <h2>Modo offline (recomendado en entornos corporativos)</h2>
-<p>El playbook de desarrollo (<code>antora-playbook.dev.yml</code>) está configurado con <code>runtime.fetch: false</code> y usa un UI bundle local en <code>./ui/ui-bundle.zip</code>.</p>
+<p>El playbook de desarrollo (<code>antora-playbook.dev.yml</code>) está configurado con <code>runtime.fetch: false</code> y usa la carpeta de UI extraída <code>./ui/ui-bundle-extract</code> para iteración rápida.</p>
 <ol>
-<li>Asegúrate de colocar un ZIP válido del UI de Antora en <code>code/docs/ui/ui-bundle.zip</code>.<ul>
-<li>Opción A: Descargar un release del UI por tu cuenta y copiar el ZIP aquí.</li>
-<li>Opción B: Construir un UI propio y empaquetarlo como ZIP.</li>
-</ul>
-</li>
+<li>Para prod determinista, genera el ZIP de UI:</li>
+</ol>
+<pre><code class="language-bash">cd code/docs
+npm install
+npm run ui:bundle
+</code></pre>
+<ol start="2">
 <li>Ejecuta:</li>
 </ol>
 <pre><code class="language-bash">npm run build:dev
@@ -58,10 +63,9 @@ npm run preview
 </ul>
 <h2>Solución de problemas</h2>
 <ul>
-<li>“UI bundle inválido o no encontrado”: Verifica que <code>ui/ui-bundle.zip</code> es un ZIP válido (no HTML). Puedes comprobarlo con <code>unzip -t ui/ui-bundle.zip</code>.</li>
-<li>“Fallo descargando UI remoto”: Usa <code>build:dev</code> (offline) o sitúa un UI local.</li>
-<li>“Cambios no se reflejan”: Ejecuta <code>npm run ingest</code> y limpia la caché de Antora si fuera necesario (<code>rm -rf .antora-cache</code>).</li>
-<li>WSL/DNS: Si tienes cortes de red, usa el modo offline y/o configura DNS estables.</li>
+<li>“UI bundle inválido o no encontrado”: Verifica que <code>ui/ui-bundle.zip</code> existe (si usas prod) o que <code>ui/ui-bundle-extract</code> existe (si usas dev).</li>
+<li>“Cambios no se reflejan”: Ejecuta <code>npm run ingest</code> y limpia la caché de Antora si fuera necesario (<code>npm run clean</code>).</li>
+<li>WSL/DNS: Si tienes cortes de red, usa el modo offline; no dependemos ya de bundles remotos.</li>
 </ul>
 <h2>Salida</h2>
 <ul>
