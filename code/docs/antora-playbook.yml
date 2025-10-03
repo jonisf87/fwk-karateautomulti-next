@@ -1,6 +1,7 @@
 site:
   title: "Auto Karate Docs"
   start_page: auto-karate::index.adoc
+  url: https://jonisf87.github.io/fwk-karateautomulti/
   keys:
     google_analytics: ""
 content:
@@ -21,6 +22,8 @@ ui:
       target: partials/footer-content.hbs
     - path: ./ui/supplemental/partials/nav-explore.hbs
       target: partials/nav-explore.hbs
+    - path: ./ui/supplemental/partials/head-styles.hbs
+      target: partials/head-styles.hbs
 asciidoc:
   attributes:
     page-pagination: ''
