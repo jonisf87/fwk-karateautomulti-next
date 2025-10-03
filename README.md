@@ -1,4 +1,4 @@
-# 🚀 Proyecto de Automatización Karate + Gatling - Izertis
+# 🚀 Proyecto de Automatización Karate + Gatling
 
 Este proyecto utiliza **Karate** como framework principal para pruebas funcionales y de integración, permitiendo la automatización robusta de pruebas E2E sobre servicios REST y microservicios.
 
