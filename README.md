@@ -4,6 +4,14 @@ Este proyecto utiliza **Karate** como framework principal para pruebas funcional
 
 ---
 
+## 🌐 Documentación Online
+
+Consulta el sitio generado con Antora en GitHub Pages para ver guías, referencias y ejemplos actualizados:
+
+- 👉 [https://jonisf87.github.io/fwk-karateautomulti/](https://jonisf87.github.io/fwk-karateautomulti/)
+
+---
+
 ## 🚀 Cómo Ejecutar el Proyecto
 
 ### 0. Prerrequisitos
