@@ -5,6 +5,8 @@
 ++++
 <h1>Archetype Karate E2E</h1>
 <p>Arquetipo Maven para generar:</p>
+<h1>Archetype Karate E2E</h1>
+<p>Arquetipo Maven para generar:</p>
 <ul>
 <li>Módulo siempre: <code>e2e/karate</code> con tests Karate.</li>
 <li>Módulo opcional: <code>code</code> (micro Spring Boot) controlado por <code>includeCodeModule</code>.</li>
@@ -17,7 +19,7 @@
 <pre><code class="language-bash">mvn archetype:generate \
   -DarchetypeGroupId=com.example.archetypes \
   -DarchetypeArtifactId=archetype-karate-e2e \
-  -DarchetypeVersion=1.0.0-SNAPSHOT \
+  -DarchetypeVersion=1.0.6-SNAPSHOT \
   -DgroupId=com.acme \
   -DartifactId=demo-e2e-no-micro \
   -Dversion=1.0.0-SNAPSHOT \
@@ -45,7 +47,7 @@ mvn -pl e2e/karate test
 <pre><code class="language-bash">mvn archetype:generate \
   -DarchetypeGroupId=com.example.archetypes \
   -DarchetypeArtifactId=archetype-karate-e2e \
-  -DarchetypeVersion=1.0.0-SNAPSHOT \
+  -DarchetypeVersion=1.0.6-SNAPSHOT \
   -DgroupId=com.acme \
   -DartifactId=demo-e2e-with-micro \
   -Dversion=1.0.0-SNAPSHOT \
