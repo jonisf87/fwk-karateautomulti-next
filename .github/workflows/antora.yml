@@ -21,7 +21,7 @@ jobs:
           node-version: '20'
 
       - name: Install Antora
-        run: npm install -g @antora/cli @antora/site-generator-default @antora/site-generator
+        run: npm install -g @antora/cli @antora/site-generator-default
 
       - name: Install docs dependencies
         working-directory: code/docs
@@ -32,12 +32,11 @@ jobs:
         run: npm run ui:bundle
 
       - name: Build Antora site
-        working-directory: code/docs
-        run: antora antora-playbook.yml
+        run: antora code/docs/antora-playbook.yml
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
-          publish_dir: code/docs/build/site
+          publish_dir: build/site
