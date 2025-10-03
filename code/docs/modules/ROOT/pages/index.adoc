@@ -1,8 +1,8 @@
-= 🚀 Proyecto de Automatización Karate + Gatling - Izertis
+= 🚀 Proyecto de Automatización Karate + Gatling
 :page-component: auto-karate
 
 ++++
-<h1>🚀 Proyecto de Automatización Karate + Gatling - Izertis</h1>
+<h1>🚀 Proyecto de Automatización Karate + Gatling</h1>
 <p>Este proyecto utiliza <strong>Karate</strong> como framework principal para pruebas funcionales y de integración, permitiendo la automatización robusta de pruebas E2E sobre servicios REST y microservicios.</p>
 <hr>
 <h2>� Cómo Ejecutar el Proyecto</h2>
