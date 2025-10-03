@@ -20,7 +20,7 @@ function copyIfExists(src, dest) {
 }
 
 function injectOverrides() {
-  const targets = ['header-content.hbs', 'footer-content.hbs', 'footer-scripts.hbs', 'nav-explore.hbs'];
+  const targets = ['header-content.hbs', 'footer-content.hbs', 'footer-scripts.hbs', 'head-styles.hbs', 'nav-explore.hbs'];
   for (const f of targets) {
     const from = path.join(supplementalDir, f);
     const to = path.join(extractDir, 'partials', f);
