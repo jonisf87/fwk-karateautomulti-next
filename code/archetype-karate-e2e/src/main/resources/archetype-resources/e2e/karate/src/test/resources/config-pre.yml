@@ -1,2 +1,6 @@
-app:
-  demoApplicationUrl: "https://dummyjson.com"
+urls:
+  dummyJSON_API: "https://dummyjson.com"
+  dummyJSON_API_products: "https://dummyjson.com/products"
+timeouts:
+  connect: 5000
+  read: 10000
