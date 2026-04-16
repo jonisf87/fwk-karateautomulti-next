@@ -1,11 +1,11 @@
 package ${package}.tests;
 
-import com.intuit.karate.junit5.Karate;
+import org.junit.platform.suite.api.SelectClasses;
+import org.junit.platform.suite.api.Suite;
+import org.junit.platform.suite.api.SuiteDisplayName;
 
-public class KarateRunnerTest {
-
-    @Karate.Test
-    Karate runAll() {
-        return Karate.run("classpath:tests/products").relativeTo(getClass());
-    }
-}
+/** JUnit Platform suite entry point for the Karate execution test. */
+@Suite
+@SuiteDisplayName("Karate E2E suite")
+@SelectClasses(KarateExecutionSpec.class)
+public class KarateRunnerTest {}

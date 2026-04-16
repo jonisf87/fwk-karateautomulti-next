@@ -15,7 +15,7 @@
             <defaultValue>false</defaultValue>
         </requiredProperty>
         <requiredProperty key="karateVersion">
-            <defaultValue>1.4.1</defaultValue>
+            <defaultValue>2.0.2</defaultValue>
         </requiredProperty>
     </requiredProperties>
 
@@ -25,6 +25,13 @@
             <directory>.</directory>
             <includes>
                 <include>pom.xml</include>
+            </includes>
+            <filtered>true</filtered>
+        </fileSet>
+        <fileSet>
+            <directory>.github/workflows</directory>
+            <includes>
+                <include>**</include>
             </includes>
             <filtered>true</filtered>
         </fileSet>
@@ -44,6 +51,7 @@
             <includes>
                 <include>pom.xml</include>
                 <include>src/main/java/**</include>
+                <include>src/test/java/**</include>
                 <include>src/main/resources/**</include>
             </includes>
             <filtered>true</filtered>

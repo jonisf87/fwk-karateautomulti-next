@@ -69,12 +69,29 @@ if(!includeCodeModule){
     println "[post-generate] Manteniendo módulo 'code' (includeCodeModule=true)"
 }
 
+def gitignoreFile = new File(outputDir, '.gitignore')
+if (!gitignoreFile.exists()) {
+    gitignoreFile.write('''.idea/
+.vscode/
+.classpath
+.project
+.settings/
+*.iml
+
+target/
+*/target/
+
+.DS_Store
+''', 'UTF-8')
+    println "[post-generate] Generado fichero '.gitignore'"
+}
+
 // Fallback: si por alguna razón el filtrado no sustituyó ${groupId}, ${artifactId}, ${version}
 // en los POM hijos, sustituirlos manualmente usando los valores reales del POM padre.
 try {
     def parentPom = new File(outputDir, 'pom.xml')
     // Intentar obtener la versión de Karate y el package suministrados
-    def kVersion = props['karateVersion'] ?: (binding.hasVariable('request') ? request?.properties?.get('karateVersion') : null) ?: System.getProperty('karateVersion') ?: '1.4.1'
+        def kVersion = props['karateVersion'] ?: (binding.hasVariable('request') ? request?.properties?.get('karateVersion') : null) ?: System.getProperty('karateVersion') ?: '2.0.2'
     def pkgValue = props['package'] ?: (binding.hasVariable('request') ? request?.properties?.get('package') : null) ?: System.getProperty('package')
     if(parentPom.exists()){
         def parentTxt = parentPom.getText('UTF-8')
@@ -83,7 +100,8 @@ try {
         def pArtifactId = parentXml.artifactId?.text()
         def pVersion = parentXml.version?.text() ?: parentXml.parent?.version?.text()
         [new File(outputDir,'e2e/karate/pom.xml'), new File(outputDir,'code/pom.xml'),
-         new File(outputDir,'e2e/karate/src/test/java'), new File(outputDir,'code/src/test/java')].each { f ->
+         new File(outputDir,'e2e/karate/src/test/java'), new File(outputDir,'code/src/main/java'),
+         new File(outputDir,'code/src/test/java')].each { f ->
             if(f.isDirectory()){ // recorrer .java si hay placeholders package
                 f.eachFileRecurse { ff ->
                     if(ff.name.endsWith('.java')){
