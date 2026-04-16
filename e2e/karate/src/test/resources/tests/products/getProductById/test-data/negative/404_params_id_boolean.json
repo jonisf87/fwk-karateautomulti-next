@@ -1,13 +1,13 @@
 {
-    "request": {
-        "headers": {},
-        "params": {
-            "productId": true
-        },
-        "body": {}
+  "request": {
+    "headers": {},
+    "params": {
+      "productId": true
     },
-    "expectedResponse": {
-        "status": 404,
-        "body": {"message":"Product with id 'true' not found"}
-    }
+    "body": {}
+  },
+  "expectedResponse": {
+    "status": 404,
+    "body": { "message": "Product with id 'true' not found" }
+  }
 }

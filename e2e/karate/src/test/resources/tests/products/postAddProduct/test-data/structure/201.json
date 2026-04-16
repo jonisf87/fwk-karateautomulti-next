@@ -1,16 +1,16 @@
 {
-    "request": {
-        "headers": {},
-        "params": {},
-        "body": {
-            "title": "new title"
-        }
-    },
-    "expectedResponse": {
-        "status": 201,
-        "body": {
-            "id": "#number",
-            "title": "new title"
-        }
+  "request": {
+    "headers": {},
+    "params": {},
+    "body": {
+      "title": "new title"
     }
+  },
+  "expectedResponse": {
+    "status": 201,
+    "body": {
+      "id": "#number",
+      "title": "new title"
+    }
+  }
 }

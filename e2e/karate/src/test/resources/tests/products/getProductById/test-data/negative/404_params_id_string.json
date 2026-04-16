@@ -1,13 +1,13 @@
 {
-    "request": {
-        "headers": {},
-        "params": {
-            "productId": "false value"
-        },
-        "body": {}
+  "request": {
+    "headers": {},
+    "params": {
+      "productId": "false value"
     },
-    "expectedResponse": {
-        "status": 404,
-        "body": {"message":"Product with id 'false value' not found"}
-    }
+    "body": {}
+  },
+  "expectedResponse": {
+    "status": 404,
+    "body": { "message": "Product with id 'false value' not found" }
+  }
 }
