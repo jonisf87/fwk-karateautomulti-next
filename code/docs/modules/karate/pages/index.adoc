@@ -1,13 +1,63 @@
-= Módulo E2E Karate
+= Karate E2E
 :page-component: auto-karate
 
-++++
-<h1>Módulo E2E Karate</h1>
-<p>Este módulo contiene las pruebas end-to-end escritas con Karate.</p>
-<ul>
-<li>Ejecución local: <code>mvn -q -f e2e/karate/pom.xml test</code></li>
-<li>Estructura de tests en <code>src/test/resources/tests</code></li>
-<li>Runner JUnit5 en <code>src/test/java</code></li>
-</ul>
-<p>Más detalles sobre convenciones, hooks y buenas prácticas se documentarán aquí.</p>
-++++
+La suite E2E vive en `e2e/karate` y usa Karate 2.0.2 sobre Java 21. Su funcionamiento diferencia con claridad el flujo remoto estandar y el flujo local del desarrollador.
+
+== Comandos principales
+
+=== Verificacion estandar
+
+[source,bash]
+----
+mvn -q -f e2e/karate/pom.xml clean verify '-Dkarate.options=--tags ~@local'
+----
+
+Ejecuta los escenarios remotos y evita depender del microservicio local.
+
+=== Flujo local
+
+[source,bash]
+----
+mvn -q -f e2e/karate/pom.xml clean verify -Dkarate.env=local '-Dkarate.options=--tags @local'
+----
+
+Requiere que el servicio demo este levantado. Si lo ejecutas en un puerto distinto, exporta `APP_PORT` antes de lanzar Maven.
+
+=== Filtrar por tags
+
+[source,bash]
+----
+mvn -q -f e2e/karate/pom.xml test '-Dkarate.options=--tags @smoke'
+mvn -q -f e2e/karate/pom.xml test '-Dkarate.options=--tags @local'
+mvn -q -f e2e/karate/pom.xml test '-Dkarate.options=--tags ~@local'
+----
+
+== Configuracion
+
+* `karate-config.js` centraliza la carga del entorno.
+* `config-pre.yml` define las URLs remotas.
+* `config-local.yml` define el endpoint local por defecto.
+* `APP_PORT` sobreescribe el puerto de `local` cuando el desarrollador levanta el servicio demo fuera de `8080`.
+
+== Estructura
+
+* `src/test/java/tests/KarateRunnerTest.java`: suite JUnit Platform.
+* `src/test/java/tests/KarateExecutionSpec.java`: resolucion de tags y generacion de reportes.
+* `src/test/resources/tests/products/**`: features y datos de prueba.
+* `combine-reports.js`: consolidacion de reportes JSON cuando hace falta un artefacto agregado.
+
+== Reportes
+
+Tras ejecutar la suite:
+
+* HTML: `target/karate-reports/karate-summary.html`
+* Timeline: `target/karate-reports/karate-timeline.html`
+* JSON consolidado: `target/cucumber-result.json`
+* Masterthought: `target/cucumber-html-reports/`
+* JUnit XML: `target/surefire-reports/`
+
+== Relacion con el microservicio
+
+Los escenarios `@local` validan el endpoint `/products` del servicio Spring Boot de ejemplo. El resto de la suite usa las URLs remotas definidas para el entorno `pre`.
+
+xref:microservice:index.adoc[Ver microservicio demo]

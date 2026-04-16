@@ -1,74 +1,37 @@
-= Documentación con Antora (code/docs)
+= Workspace Antora
 :page-component: auto-karate
-// GENERATED-BY: ingest-readmes.js
 
-++++
-<h1>Documentación con Antora (code/docs)</h1>
-<p>Este directorio contiene el sitio de documentación generado con Antora 3.
-Incluye ingesta automática de READMEs y un modo de desarrollo offline. La búsqueda ha sido eliminada.</p>
-<h2>Requisitos</h2>
-<ul>
-<li>Node.js 18+ (recomendado 18.x o 20.x)</li>
-<li>No necesitas instalar Antora globalmente; se usa vía <code>npx</code> con las dependencias locales.</li>
-</ul>
-<h2>Scripts disponibles</h2>
-<p>Desde <code>code/docs/</code>:</p>
-<ul>
-<li><code>npm run ingest</code>: Convierte los README.md a páginas AsciiDoc (módulos ROOT, karate, microservice, archetype y este <code>docs</code>).</li>
-<li><code>npm run build</code> (producción con fetch): Construye con el playbook principal y <code>--fetch</code> (no necesario en entornos cerrados).</li>
-<li><code>npm run build:prod</code> (producción local): Construye con <code>antora-playbook.yml</code> usando <code>ui/ui-bundle.zip</code>.</li>
-<li><code>npm run build:dev</code> (desarrollo/offline): Construye con <code>antora-playbook.dev.yml</code> sin descargas (usa UI extraída).</li>
-<li><code>npm run preview</code>: Construye en modo dev y sirve el sitio en <code>http://localhost:5080</code>.</li>
-<li><code>npm run watch</code>: Vuelve a construir en modo dev al detectar cambios en módulos, playbooks y READMEs mapeados.</li>
-<li><code>npm run preview</code>: Servidor local del sitio (5080).</li>
-<li><code>npm run clean</code>: Elimina <code>build/</code> y <code>.antora-cache/</code>.</li>
-<li><code>npm run ui:bundle</code>: Genera <code>ui/ui-bundle.zip</code> inyectando overrides sobre <code>ui/ui-bundle-extract/</code>.</li>
-</ul>
-<h2>Modo offline (recomendado en entornos corporativos)</h2>
-<p>El playbook de desarrollo (<code>antora-playbook.dev.yml</code>) está configurado con <code>runtime.fetch: false</code> y usa la carpeta de UI extraída <code>./ui/ui-bundle-extract</code> para iteración rápida.</p>
-<ol>
-<li>Para prod determinista, genera el ZIP de UI:</li>
-</ol>
-<pre><code class="language-bash">cd code/docs
-npm install
-npm run ui:bundle
-</code></pre>
-<ol start="2">
-<li>Ejecuta:</li>
-</ol>
-<pre><code class="language-bash">npm run build:dev
+Este directorio (`code/docs/`) contiene el sitio Antora del repositorio, la capa de personalizacion visual y la logica auxiliar para empaquetar la UI y generar paginas derivadas de los README.
+
+== Scripts utiles
+
+[source,bash]
+----
+cd code/docs
+npm ci
+npm run build:dev
 npm run preview
-</code></pre>
-<h2>Estructura de módulos del sitio</h2>
-<ul>
-<li>ROOT: Página principal del proyecto.</li>
-<li>karate: Detalles del módulo E2E (Karate tests).</li>
-<li>microservice: Detalles del microservicio de ejemplo (<code>code</code>).</li>
-<li>archetype: Arquetipo Maven para generar proyectos E2E.</li>
-<li>docs: Esta página con instrucciones del sitio Antora.</li>
-</ul>
-<h2>Ingesta de READMEs</h2>
-<p>El script <code>ingest-readmes.js</code> convierte markdown → HTML y lo inserta en páginas AsciiDoc con bloque passthrough (<code>++++</code>).</p>
-<ul>
-<li>Añade un comentario de control <code>// GENERATED-BY: ingest-readmes.js</code> para reconocer páginas generadas automáticamente.</li>
-<li>Si una página fue editada manualmente y no contiene el comentario, no se sobreescribe.</li>
-</ul>
-<p>Fuentes mapeadas actualmente:</p>
-<ul>
-<li><code>../../README.md</code> → <code>modules/ROOT/pages/index.adoc</code></li>
-<li><code>../../e2e/karate/README.md</code> → <code>modules/karate/pages/index.adoc</code></li>
-<li><code>../../code/README.md</code> → <code>modules/microservice/pages/index.adoc</code></li>
-<li><code>../../code/archetype-karate-e2e/README.md</code> → <code>modules/archetype/pages/index.adoc</code></li>
-<li><code>./README.md</code> → <code>modules/docs/pages/index.adoc</code></li>
-</ul>
-<h2>Solución de problemas</h2>
-<ul>
-<li>“UI bundle inválido o no encontrado”: Verifica que <code>ui/ui-bundle.zip</code> existe (si usas prod) o que <code>ui/ui-bundle-extract</code> existe (si usas dev).</li>
-<li>“Cambios no se reflejan”: Ejecuta <code>npm run ingest</code> y limpia la caché de Antora si fuera necesario (<code>npm run clean</code>).</li>
-<li>WSL/DNS: Si tienes cortes de red, usa el modo offline; no dependemos ya de bundles remotos.</li>
-</ul>
-<h2>Salida</h2>
-<ul>
-<li>El sitio renderizado se genera en <code>code/docs/build/site/</code>.</li>
-</ul>
-++++
+----
+
+Otros comandos relevantes:
+
+* `npm run build:prod`: construccion local usando `antora-playbook.yml`.
+* `npm run ui:bundle`: regenera `ui/ui-bundle.zip`.
+* `npm run ingest`: actualiza las paginas generadas desde README.
+* `npm run watch`: recompila al detectar cambios en modulos, readmes y overrides de UI.
+
+== Ficheros clave
+
+* `antora.yml`: define componente, titulo y navegacion.
+* `antora-playbook.dev.yml`: build offline con UI local extraida.
+* `antora-playbook.yml`: build para publicacion.
+* `ingest-readmes.js`: genera paginas auxiliares a partir de README.
+* `scripts/bundle-ui.js`: empaqueta la UI sin depender de herramientas externas.
+* `ui/supplemental/**`: overrides de parciales y assets del tema.
+
+== Que revisar si algo falla
+
+* Si un cambio visual no aparece, reconstruye con `npm run build:dev`.
+* Si el zip de UI se queda desfasado, ejecuta `npm run ui:bundle`.
+* Si quieres revisar la relacion entre README y docs, consulta xref:readme-sync.adoc[Ingesta de README].
+* Si necesitas entender el despliegue a GitHub Pages, consulta xref:publishing.adoc[Publicacion].

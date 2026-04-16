@@ -1,19 +1,13 @@
 <header class="header">
   <nav class="navbar">
     <div class="navbar-brand">
-      <a class="navbar-item" href="{{{or site.url siteRootPath}}}">{{site.title}}</a>
-      {{!-- search removed --}}
-      <button class="navbar-burger" aria-controls="topbar-nav" aria-expanded="false" aria-label="Toggle main menu">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
+      <a class="navbar-item brand-mark" href="{{{siteRootPath}}}/auto-karate/index.html">
+        <span class="brand-icon" aria-hidden="true">▣</span>
+        <span>{{site.title}}</span>
+      </a>
     </div>
-    <div id="topbar-nav" class="navbar-menu">
-      <div class="navbar-end">
-        <a class="navbar-item" href="{{{or site.url siteRootPath}}}">Home</a>
-        <!-- Products/Services removed by supplemental override -->
-      </div>
+    <div class="navbar-end">
+      <a class="navbar-item nav-github" href="https://github.com/jonisf87/fwk-karateautomulti">GitHub</a>
     </div>
   </nav>
 </header>

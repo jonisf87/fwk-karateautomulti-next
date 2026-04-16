@@ -1,0 +1,52 @@
+= Microservicio demo
+:page-component: auto-karate
+// GENERATED-BY: ingest-readmes.js
+
+++++
+<h1>Microservicio demo</h1>
+<p>Modulo Spring Boot 3.5.13 sobre Java 21. Su objetivo es dar soporte al flujo local de la suite Karate y al proyecto generado por el arquetipo.</p>
+<h2>Overview</h2>
+<p>El servicio expone un unico endpoint:</p>
+<ul>
+<li><code>GET /products</code></li>
+</ul>
+<p>Respuesta esperada:</p>
+<pre><code class="language-json">[
+  { &quot;id&quot;: 1, &quot;name&quot;: &quot;Product A&quot;, &quot;price&quot;: 10.0 },
+  { &quot;id&quot;: 2, &quot;name&quot;: &quot;Product B&quot;, &quot;price&quot;: 20.0 }
+]
+</code></pre>
+<h2>Requirements</h2>
+<ul>
+<li>Java 21</li>
+<li>Maven 3.9 o superior</li>
+</ul>
+<h2>Installation</h2>
+<pre><code class="language-bash">cd code
+mvn clean verify
+</code></pre>
+<h2>Execution</h2>
+<p>Arranque normal:</p>
+<pre><code class="language-bash">mvn spring-boot:run
+</code></pre>
+<p>Puerto personalizado:</p>
+<pre><code class="language-bash">export APP_PORT=18081
+mvn spring-boot:run -Dspring-boot.run.arguments=--server.port=$APP_PORT
+</code></pre>
+<p>Comprobacion rapida:</p>
+<pre><code class="language-bash">curl http://localhost:8080/products
+</code></pre>
+<h2>Structure</h2>
+<pre><code class="language-text">code/
+├── pom.xml
+└── src/
+    ├── main/java/com/example/demo/
+    ├── main/resources/
+    └── test/java/com/example/demo/
+</code></pre>
+<h2>Contribution</h2>
+<ul>
+<li>Mantener estable el endpoint <code>/products</code>.</li>
+<li>Cualquier cambio que afecte al flujo local debe validarse tambien desde <code>e2e/karate</code>.</li>
+</ul>
+++++

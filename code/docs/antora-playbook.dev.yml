@@ -1,7 +1,7 @@
 runtime:
   fetch: false
 site:
-  title: "Auto Karate Docs (Dev)"
+  title: "FWK Karate AutoMulti (Dev)"
   start_page: auto-karate::index.adoc
 content:
   sources:
@@ -19,8 +19,8 @@ ui:
       target: partials/footer-scripts.hbs
     - path: ./ui/supplemental/partials/footer-content.hbs
       target: partials/footer-content.hbs
-    - path: ./ui/supplemental/partials/nav-explore.hbs
-      target: partials/nav-explore.hbs
+    - path: ./ui/supplemental/css/retro-theme.css
+      target: css/retro-theme.css
 asciidoc:
   attributes:
     page-pagination: ''
