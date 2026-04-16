@@ -1,0 +1,75 @@
+name: Publish Maven Archetype
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  publish-archetype:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+          server-id: github
+          server-username: GITHUB_ACTOR
+          server-password: GITHUB_TOKEN
+
+      - name: Resolve release version from tag
+        id: version
+        shell: bash
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          if [[ ! "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "Tag no valida: $GITHUB_REF_NAME. Usa formato vX.Y.Z" >&2
+            exit 1
+          fi
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+
+      - name: Apply release version to archetype module
+        run: >
+          mvn -B -ntp
+          -f code/archetype-karate-e2e/pom.xml
+          versions:set
+          -DnewVersion=${{ steps.version.outputs.version }}
+          -DgenerateBackupPoms=false
+
+      - name: Install archetype locally
+        run: mvn -B -ntp -f code/archetype-karate-e2e/pom.xml clean install
+
+      - name: Validate generated project
+        shell: bash
+        run: |
+          TMP_DIR="$(mktemp -d)"
+          pushd "$TMP_DIR"
+          mvn -B -ntp archetype:generate \
+            -DarchetypeCatalog=local \
+            -DarchetypeGroupId=io.github.jonisf87.archetypes \
+            -DarchetypeArtifactId=archetype-karate-e2e \
+            -DarchetypeVersion=${{ steps.version.outputs.version }} \
+            -DgroupId=io.github.jonisf87.demo \
+            -DartifactId=archetype-smoke \
+            -Dversion=0.0.1-SNAPSHOT \
+            -Dpackage=io.github.jonisf87.demo \
+            -DincludeCodeModule=false \
+            -DinteractiveMode=false
+          mvn -B -ntp -f archetype-smoke/pom.xml validate
+          popd
+
+      - name: Publish archetype to GitHub Packages
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: mvn -B -ntp -f code/archetype-karate-e2e/pom.xml deploy

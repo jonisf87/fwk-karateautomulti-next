@@ -36,6 +36,8 @@ Generado a partir del historial Git del repositorio. Para un resultado mas claro
 
 ==== Documentacion
 
+* Ignore generated Antora readme snapshots (link:https://github.com/jonisf87/fwk-karateautomulti/commit/820cc0731e39d3e91af7b667fae50936f763b27c[820cc07], 2026-04-16)
+* Automate Antora changelog generation (link:https://github.com/jonisf87/fwk-karateautomulti/commit/dfea1a693a52a7361896d24a39f83d55d205557e[dfea1a6], 2026-04-16)
 * Rework Antora docs experience (link:https://github.com/jonisf87/fwk-karateautomulti/commit/9ec6de0aa1df48695642d7d5bf24bd8a76128c97[9ec6de0], 2026-04-16)
 * neutralize branding and rebuild site bundle (link:https://github.com/jonisf87/fwk-karateautomulti/commit/4ca12bf98beba87dd9b57810a536607dfe1aaa20[4ca12bf], 2025-10-03)
 * add Antora site link to README (link:https://github.com/jonisf87/fwk-karateautomulti/commit/6e5f1054550634f1b8d7fc7843a88bd826270b2f[6e5f105], 2025-10-03)

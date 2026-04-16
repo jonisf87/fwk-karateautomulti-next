@@ -3,6 +3,10 @@
 
 El arquetipo `code/archetype-karate-e2e` genera proyectos alineados con el estado actual del repositorio: Java 21, Karate 2.0.2, runner JUnit Platform, soporte `APP_PORT` para `@local` y workflow de CI de base.
 
+Coordenadas publicas previstas:
+
+* `io.github.jonisf87.archetypes:archetype-karate-e2e`
+
 == Instalar el arquetipo localmente
 
 [source,bash]
@@ -10,14 +14,55 @@ El arquetipo `code/archetype-karate-e2e` genera proyectos alineados con el estad
 mvn -f code/archetype-karate-e2e/pom.xml clean install
 ----
 
+== Consumirlo desde GitHub Packages
+
+GitHub Packages para Maven requiere autenticacion tambien para paquetes publicos. Para consumir el arquetipo remoto:
+
+1. crea un token classic con `read:packages`
+2. exporta `GITHUB_PACKAGES_TOKEN`
+3. configura `~/.m2/settings.xml` con el repositorio `https://maven.pkg.github.com/jonisf87/fwk-karateautomulti`
+
+[source,xml]
+----
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 https://maven.apache.org/xsd/settings-1.0.0.xsd">
+  <activeProfiles>
+    <activeProfile>github-archetype</activeProfile>
+  </activeProfiles>
+  <profiles>
+    <profile>
+      <id>github-archetype</id>
+      <repositories>
+        <repository>
+          <id>central</id>
+          <url>https://repo.maven.apache.org/maven2</url>
+        </repository>
+        <repository>
+          <id>github</id>
+          <url>https://maven.pkg.github.com/jonisf87/fwk-karateautomulti</url>
+        </repository>
+      </repositories>
+    </profile>
+  </profiles>
+  <servers>
+    <server>
+      <id>github</id>
+      <username>jonisf87</username>
+      <password>${env.GITHUB_PACKAGES_TOKEN}</password>
+    </server>
+  </servers>
+</settings>
+----
+
 == Generar un proyecto solo con E2E
 
 [source,bash]
 ----
 mvn archetype:generate \
-  -DarchetypeGroupId=com.example.archetypes \
+  -DarchetypeGroupId=io.github.jonisf87.archetypes \
   -DarchetypeArtifactId=archetype-karate-e2e \
-  -DarchetypeVersion=1.0.6-SNAPSHOT \
+  -DarchetypeVersion=1.0.0-SNAPSHOT \
   -DgroupId=com.acme \
   -DartifactId=demo-e2e-no-micro \
   -Dversion=1.0.0-SNAPSHOT \
@@ -33,9 +78,9 @@ Este modo deja un proyecto centrado en `e2e/karate`, con un feature offline como
 [source,bash]
 ----
 mvn archetype:generate \
-  -DarchetypeGroupId=com.example.archetypes \
+  -DarchetypeGroupId=io.github.jonisf87.archetypes \
   -DarchetypeArtifactId=archetype-karate-e2e \
-  -DarchetypeVersion=1.0.6-SNAPSHOT \
+  -DarchetypeVersion=1.0.0 \
   -DgroupId=com.acme \
   -DartifactId=demo-e2e-con-micro \
   -Dversion=1.0.0-SNAPSHOT \
@@ -81,3 +126,12 @@ Para probar `@local`, levanta el servicio y exporta `APP_PORT` si usas un puerto
 == Validacion aplicada en este repositorio
 
 El arquetipo se ha validado generando un proyecto real con `includeCodeModule=true`, ejecutando `code/`, la suite `~@local` y el flujo `@local` contra un servicio demo levantado en un puerto distinto de `8080`.
+
+== Flujo de release
+
+La publicacion remota del arquetipo se realiza con tags `vX.Y.Z` mediante `.github/workflows/publish-archetype.yml`. El workflow:
+
+* toma la version desde el tag
+* ajusta el `pom.xml` del modulo solo dentro del job
+* valida la generacion del arquetipo desde el catalogo local
+* publica el artefacto en GitHub Packages
