@@ -13,7 +13,7 @@ El proyecto agrupa cuatro piezas:
 
 Documentacion online:
 
-* https://jonisf87.github.io/fwk-karateautomulti/index.html
+* https://jonisf87.github.io/fwk-karateautomulti/auto-karate/index.html
 
 ## Requirements
 
