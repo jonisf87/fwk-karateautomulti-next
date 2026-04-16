@@ -1,41 +1,70 @@
-# Módulo E2E Karate
+# Karate E2E
 
-Este módulo contiene las pruebas end-to-end escritas con Karate.
+Suite E2E del repositorio, basada en Karate 2.0.2 y Java 21.
 
-## Ejecutar pruebas
+## Overview
 
-Ejecutar todas las pruebas:
+La suite separa dos modos de ejecucion:
 
-```bash
-mvn -q -f e2e/karate/pom.xml test
-```
+* `~@local`: validacion estandar del repositorio, sin depender del microservicio local
+* `@local`: flujo real del desarrollador contra el servicio demo levantado manualmente
 
-Filtrar por tags y/o entorno:
+## Requirements
 
-```bash
-mvn -q -f e2e/karate/pom.xml test "-Dkarate.options=--tags @tuTag" "-Dkarate.env=local"
-```
+* Java 21
+* Maven 3.9 o superior
 
-## Estructura
-
-- Features: `src/test/resources/tests`
-- Configuración: `src/test/resources/karate-config.js`, `config-*.yml`
-- Runner JUnit5: `src/test/java/tests/KarateRunnerTest.java`
-
-## Ejecutar contra microservicio local (opcional)
-
-1) Arranca el micro en otra terminal (ver `code/README.md`).
-2) Ejecuta las pruebas con entorno `local`:
+## Installation
 
 ```bash
-mvn -q -f e2e/karate/pom.xml test -Dkarate.env=local -D"karate.options=--tags @local"
+cd e2e/karate
+mvn clean verify '-Dkarate.options=--tags ~@local'
 ```
 
-## Reportes
+## Execution
 
-- HTML: `target/karate-reports/karate-summary.html`
-- Timeline: `target/karate-reports/karate-timeline.html`
-- Cucumber JSON: `target/cucumber-report.json`
-- JUnit XML: `target/surefire-reports/`
+Flujo remoto estandar:
 
-Para combinar reportes JSON: `node combine-reports.js` (si aplica en tu flujo).
+```bash
+mvn clean verify '-Dkarate.options=--tags ~@local'
+```
+
+Flujo local:
+
+```bash
+mvn clean verify -Dkarate.env=local '-Dkarate.options=--tags @local'
+```
+
+Flujo local con puerto personalizado:
+
+```bash
+APP_PORT=18081 mvn clean verify -Dkarate.env=local '-Dkarate.options=--tags @local'
+```
+
+Filtrado por tags:
+
+```bash
+mvn test '-Dkarate.options=--tags @smoke'
+mvn test '-Dkarate.options=--tags @local'
+```
+
+## Structure
+
+```text
+e2e/karate/
+├── pom.xml
+├── combine-reports.js
+└── src/test/
+    ├── java/tests/
+    └── resources/
+        ├── karate-config.js
+        ├── config-local.yml
+        ├── config-pre.yml
+        └── tests/products/
+```
+
+## Contribution
+
+* Usa `~@local` para la validacion estandar.
+* Usa `@local` solo con el microservicio demo levantado.
+* Mantén features, datos de prueba y configuracion por entorno alineados.

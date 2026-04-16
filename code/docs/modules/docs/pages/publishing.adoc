@@ -1,0 +1,38 @@
+= Publicacion
+:page-component: auto-karate
+
+La documentacion se publica mediante `.github/workflows/antora.yml` en la rama `gh-pages`.
+
+== Flujo actual
+
+1. Checkout del repositorio.
+2. Instalacion de dependencias de `code/docs`.
+3. Generacion del bundle de UI (`npm run ui:bundle`).
+4. Build de Antora con el playbook de produccion.
+5. Flatten del directorio `auto-karate/` generado por Antora.
+6. Creacion de `.nojekyll`.
+7. Publicacion del contenido de `code/docs/build/site` en `gh-pages`.
+
+== Puntos importantes
+
+* La build publicada debe usar los scripts del propio workspace, no una instalacion global distinta de Antora.
+* El flatten sigue siendo necesario porque el componente se genera bajo `auto-karate/`.
+* La URL publica configurada en el playbook es `https://jonisf87.github.io/fwk-karateautomulti/`.
+
+== Comprobacion local equivalente
+
+[source,bash]
+----
+cd code/docs
+npm ci
+npm run ui:bundle
+npm run build:prod
+----
+
+El resultado queda en `code/docs/build/site/`.
+
+== Riesgos a vigilar
+
+* overrides desalineados entre `ui/ui-bundle.zip` y `ui/supplemental/**`
+* enlaces absolutos que dependan de una ruta distinta a GitHub Pages
+* paginas nuevas no enlazadas desde `modules/ROOT/nav.adoc`

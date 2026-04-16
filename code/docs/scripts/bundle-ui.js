@@ -3,27 +3,26 @@
  * Bundle the extracted Antora UI folder into ui/ui-bundle.zip, injecting overrides first.
  * This script is cross-platform and avoids relying on bash/zip.
  */
-const fs = require('fs');
-const path = require('path');
-const archiver = require('archiver');
+const fs = require("fs");
+const path = require("path");
+const archiver = require("archiver");
 
-const root = path.resolve(__dirname, '..');
-const uiDir = path.join(root, 'ui');
-const extractDir = path.join(uiDir, 'ui-bundle-extract');
-const supplementalDir = path.join(uiDir, 'supplemental', 'partials');
-const outZip = path.join(uiDir, 'ui-bundle.zip');
-
-function copyIfExists(src, dest) {
-  if (fs.existsSync(src)) {
-    fs.copyFileSync(src, dest);
-  }
-}
+const root = path.resolve(__dirname, "..");
+const uiDir = path.join(root, "ui");
+const extractDir = path.join(uiDir, "ui-bundle-extract");
+const supplementalDir = path.join(uiDir, "supplemental", "partials");
+const outZip = path.join(uiDir, "ui-bundle.zip");
 
 function injectOverrides() {
-  const targets = ['header-content.hbs', 'footer-content.hbs', 'footer-scripts.hbs', 'head-styles.hbs', 'nav-explore.hbs'];
+  const targets = [
+    "header-content.hbs",
+    "footer-content.hbs",
+    "footer-scripts.hbs",
+    "head-styles.hbs",
+  ];
   for (const f of targets) {
     const from = path.join(supplementalDir, f);
-    const to = path.join(extractDir, 'partials', f);
+    const to = path.join(extractDir, "partials", f);
     if (fs.existsSync(from) && fs.existsSync(path.dirname(to))) {
       fs.copyFileSync(from, to);
       console.log(`Injected override: ${f}`);
@@ -36,11 +35,11 @@ async function zipDir(srcDir, destZip) {
   if (fs.existsSync(destZip)) fs.unlinkSync(destZip);
   return new Promise((resolve, reject) => {
     const output = fs.createWriteStream(destZip);
-    const archive = archiver('zip', { zlib: { level: 9 } });
-    output.on('close', () => resolve());
-    archive.on('error', err => reject(err));
+    const archive = archiver("zip", { zlib: { level: 9 } });
+    output.on("close", () => resolve());
+    archive.on("error", (err) => reject(err));
     archive.pipe(output);
-    archive.directory(srcDir + '/', false);
+    archive.directory(srcDir + "/", false);
     archive.finalize();
   });
 }

@@ -1,5 +1,5 @@
 site:
-  title: "Auto Karate Docs"
+  title: "FWK Karate AutoMulti"
   start_page: auto-karate::index.adoc
   url: https://jonisf87.github.io/fwk-karateautomulti/
   keys:
@@ -20,10 +20,10 @@ ui:
       target: partials/footer-scripts.hbs
     - path: ./ui/supplemental/partials/footer-content.hbs
       target: partials/footer-content.hbs
-    - path: ./ui/supplemental/partials/nav-explore.hbs
-      target: partials/nav-explore.hbs
     - path: ./ui/supplemental/partials/head-styles.hbs
       target: partials/head-styles.hbs
+    - path: ./ui/supplemental/css/retro-theme.css
+      target: css/retro-theme.css
 asciidoc:
   attributes:
     page-pagination: ''

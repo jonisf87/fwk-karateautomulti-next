@@ -1,0 +1,78 @@
+= FWK Karate AutoMulti
+:page-component: auto-karate
+// GENERATED-BY: ingest-readmes.js
+
+++++
+<h1>FWK Karate AutoMulti</h1>
+<p>Repositorio de referencia para automatizacion E2E con Karate, microservicio Spring Boot, documentacion Antora y un arquetipo Maven reutilizable.</p>
+<h2>Overview</h2>
+<p>El proyecto agrupa cuatro piezas:</p>
+<ul>
+<li><code>code/</code>: microservicio demo Spring Boot con el endpoint <code>/products</code></li>
+<li><code>e2e/karate/</code>: suite E2E con Karate 2.0.2</li>
+<li><code>code/archetype-karate-e2e/</code>: arquetipo Maven para generar proyectos alineados con este stack</li>
+<li><code>code/docs/</code>: sitio Antora publicado en GitHub Pages</li>
+</ul>
+<p>Documentacion online:</p>
+<ul>
+<li><a href="https://jonisf87.github.io/fwk-karateautomulti/">https://jonisf87.github.io/fwk-karateautomulti/</a></li>
+</ul>
+<h2>Requirements</h2>
+<ul>
+<li>Java 21</li>
+<li>Maven 3.9 o superior</li>
+<li>Node.js 18 o superior</li>
+<li>Git</li>
+</ul>
+<h2>Installation</h2>
+<pre><code class="language-bash">git clone &lt;repository-url&gt;
+cd fwk-karateautomulti
+</code></pre>
+<p>Validacion basica de dependencias:</p>
+<pre><code class="language-bash">cd code
+mvn clean verify
+
+cd ../e2e/karate
+mvn clean verify &#39;-Dkarate.options=--tags ~@local&#39;
+</code></pre>
+<h2>Execution</h2>
+<p>Flujo local completo con el servicio demo:</p>
+<pre><code class="language-bash">cd code
+mvn spring-boot:run
+</code></pre>
+<p>En otra terminal:</p>
+<pre><code class="language-bash">cd e2e/karate
+mvn clean verify -Dkarate.env=local &#39;-Dkarate.options=--tags @local&#39;
+</code></pre>
+<p>Si necesitas otro puerto:</p>
+<pre><code class="language-bash">cd code
+export APP_PORT=18081
+mvn spring-boot:run -Dspring-boot.run.arguments=--server.port=$APP_PORT
+
+cd ../e2e/karate
+APP_PORT=18081 mvn clean verify -Dkarate.env=local &#39;-Dkarate.options=--tags @local&#39;
+</code></pre>
+<p>Documentacion local:</p>
+<pre><code class="language-bash">cd code/docs
+npm ci
+npm run build:dev
+npm run preview
+</code></pre>
+<h2>Structure</h2>
+<pre><code class="language-text">fwk-karateautomulti/
+├── code/
+│   ├── archetype-karate-e2e/
+│   ├── docs/
+│   └── src/
+├── e2e/
+│   └── karate/
+└── README.md
+</code></pre>
+<h2>Contribution</h2>
+<ol>
+<li>Crea una rama desde <code>main</code>.</li>
+<li>Manten el flujo remoto en <code>~@local</code> y usa <code>@local</code> solo cuando el servicio demo este levantado.</li>
+<li>Si tocas documentacion, valida <code>code/docs</code> con la build Antora local.</li>
+<li>Abre un Pull Request con el alcance bien acotado.</li>
+</ol>
+++++

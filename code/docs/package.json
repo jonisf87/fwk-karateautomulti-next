@@ -4,24 +4,29 @@
   "scripts": {
     "ingest": "node ingest-readmes.js",
     "build": "npm run ingest && npx antora --fetch antora-playbook.yml",
-    "build:dev": "npm run ingest && npx antora antora-playbook.dev.yml",
+    "build:dev": "npm run ui:bundle && npm run ingest && npx antora antora-playbook.dev.yml",
     "build:dev:clean": "npm run clean && npm run build:dev",
     "dev": "npm run build:dev",
-    "watch": "chokidar \"modules/**\" \"antora-*.yml\" \"ingest-readmes.js\" \"../../README.md\" \"../../e2e/karate/README.md\" \"../../code/README.md\" \"./README.md\" \"../../code/archetype-karate-e2e/README.md\" -c \"npm run build:dev\"",
+    "watch": "chokidar \"modules/**\" \"antora-*.yml\" \"ingest-readmes.js\" \"../../README.md\" \"../../e2e/karate/README.md\" \"../../code/README.md\" \"./README.md\" \"../../code/archetype-karate-e2e/README.md\" \"ui/supplemental/**\" -c \"npm run build:dev\"",
     "preview": "npm run build:dev && npx http-server ./build/site -p 5080 -c-1",
     "clean": "rm -rf build .antora-cache || true && echo 'build y cache limpiados'",
-    "build:prod": "npm run ingest && npx antora antora-playbook.yml",
+    "build:prod": "npm run ui:bundle && npm run ingest && npx antora antora-playbook.yml",
     "preview:prod": "npm run build:prod && npx http-server ./build/site -p 5080 -c-1",
     "ui:prepare": "rm -rf ui/ui-bundle-extract && mkdir -p ui/ui-bundle-extract",
     "ui:bundle": "node scripts/bundle-ui.js",
-    "ui:dev": "npm run ui:bundle && npm run build:dev"
+    "ui:dev": "npm run ui:bundle && npm run build:dev",
+    "lint": "eslint ingest-readmes.js scripts/**/*.js",
+    "format": "prettier --write ingest-readmes.js scripts/**/*.js"
   },
   "devDependencies": {
-    "http-server": "14.1.1",
-    "marked": "12.0.2",
     "@antora/cli": "3.1.7",
     "@antora/site-generator": "3.1.7",
+    "http-server": "14.1.1",
+    "marked": "12.0.2",
     "chokidar-cli": "3.0.0",
-    "archiver": "6.0.2"
+    "archiver": "6.0.2",
+    "eslint": "8.57.1",
+    "eslint-config-prettier": "9.1.0",
+    "prettier": "3.5.3"
   }
 }

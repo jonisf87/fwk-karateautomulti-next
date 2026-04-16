@@ -1,51 +1,67 @@
-# Módulo Microservicio (code)
+# Microservicio demo
 
-Módulo opcional con un microservicio Spring Boot 3.x de ejemplo.
-Expone un endpoint REST para productos, utilizado por los tests E2E (Karate).
+Modulo Spring Boot 3.5.13 sobre Java 21. Su objetivo es dar soporte al flujo local de la suite Karate y al proyecto generado por el arquetipo.
 
-## Endpoints
+## Overview
 
-- `GET /products` → Lista estática de productos de ejemplo:
-	```json
-	[
-		{ "id": 1, "name": "Product A", "price": 10.0 },
-		{ "id": 2, "name": "Product B", "price": 20.0 }
-	]
-	```
+El servicio expone un unico endpoint:
 
-## Configuración y ejecución
+* `GET /products`
 
-- Puerto por defecto: `8080` (ver `code/src/main/resources/application.properties`).
-- Puedes cambiar el puerto con `APP_PORT` o `-Dspring-boot.run.arguments=--server.port=XXXX`.
+Respuesta esperada:
 
-Arranque local (desde la raíz del repo):
+```json
+[
+  { "id": 1, "name": "Product A", "price": 10.0 },
+  { "id": 2, "name": "Product B", "price": 20.0 }
+]
+```
+
+## Requirements
+
+* Java 21
+* Maven 3.9 o superior
+
+## Installation
 
 ```bash
-mvn -q -f code/pom.xml spring-boot:run
+cd code
+mvn clean verify
 ```
 
-Arranque en puerto personalizado (Linux/macOS/WSL):
+## Execution
+
+Arranque normal:
 
 ```bash
-export APP_PORT=9090
-mvn -q -f code/pom.xml spring-boot:run -Dspring-boot.run.arguments=--server.port=$APP_PORT
+mvn spring-boot:run
 ```
 
-Arranque en puerto personalizado (Windows PowerShell):
+Puerto personalizado:
 
-```powershell
-$env:APP_PORT=9090
-mvn -q -f code/pom.xml spring-boot:run -Dspring-boot.run.arguments=--server.port=$env:APP_PORT
+```bash
+export APP_PORT=18081
+mvn spring-boot:run -Dspring-boot.run.arguments=--server.port=$APP_PORT
 ```
 
-## Uso desde Karate
+Comprobacion rapida:
 
-- El fichero `e2e/karate/src/test/resources/config-local.yml` apunta por defecto a `http://localhost:8080/products`.
-- El feature `tests/products/getProductsLocal/getProductsLocal.feature` valida la respuesta esperada del micro.
+```bash
+curl http://localhost:8080/products
+```
 
-Consulta `e2e/karate/README.md` para opciones de ejecución por tags/entornos y reportes.
+## Structure
 
-## Notas
+```text
+code/
+├── pom.xml
+└── src/
+    ├── main/java/com/example/demo/
+    ├── main/resources/
+    └── test/java/com/example/demo/
+```
 
-- Este módulo es opcional cuando se genera un proyecto con el arquetipo; se activa con `-DincludeCodeModule=true`.
-- Nombre de la app: `karate-demo-micro` (propiedad `spring.application.name`).
+## Contribution
+
+* Mantener estable el endpoint `/products`.
+* Cualquier cambio que afecte al flujo local debe validarse tambien desde `e2e/karate`.

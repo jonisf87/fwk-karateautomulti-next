@@ -1,304 +1,46 @@
-= 🚀 Proyecto de Automatización Karate + Gatling
+= FWK Karate AutoMulti
+:page-role: home
 :page-component: auto-karate
 
-++++
-<h1>🚀 Proyecto de Automatización Karate + Gatling</h1>
-<p>Este proyecto utiliza <strong>Karate</strong> como framework principal para pruebas funcionales y de integración, permitiendo la automatización robusta de pruebas E2E sobre servicios REST y microservicios.</p>
-<hr>
-<h2>� Cómo Ejecutar el Proyecto</h2>
-<h3>0. Prerrequisitos</h3>
-<p>Asegúrate de tener instaladas las siguientes herramientas globales:</p>
-<ul>
-<li>☕ <strong>Java 17</strong> o superior</li>
-<li>📦 <strong>Maven 3.6</strong> o superior</li>
-<li>🌐 <strong>Node.js</strong></li>
-<li>🔧 <strong>Git</strong></li>
-</ul>
-<p>Puedes verificar las instalaciones con:</p>
-<pre><code class="language-bash">java -version    # Debe mostrar Java 17+
-mvn -version     # Debe mostrar Maven 3.6+
-node -v          # Debe mostrar Node.js instalado
-git --version    # Para clonar y cambiar ramas
-</code></pre>
-<h3>1. Clonar el Repositorio</h3>
-<pre><code class="language-bash">git clone &lt;repository-url&gt;
-cd auto-karate-fw
-</code></pre>
-<h3>2. Instalar dependencias</h3>
-<h4>Microservicio (carpeta <code>code</code>)</h4>
-<pre><code class="language-bash">cd code
-mvn clean install
-</code></pre>
-<p>Esto descargará todas las dependencias necesarias para el microservicio y generará el JAR ejecutable.</p>
-<h4>Karate (carpeta <code>e2e/karate</code>)</h4>
-<pre><code class="language-bash">cd e2e/karate
-mvn clean install
-</code></pre>
-<p>Esto descargará todas las dependencias necesarias para ejecutar los tests E2E con Karate.</p>
-<h3>3. Inicializar el microservicio local (opcional para pruebas locales)</h3>
-<pre><code class="language-bash">cd code
-mvn clean install
-java -jar target/karate-demo-micro-0.0.1-SNAPSHOT.jar
-# El microservicio quedará disponible en http://localhost:8080/products
-</code></pre>
-<h3>4. Ejecutar Pruebas</h3>
-<h4>Comandos básicos para ejecutar pruebas Karate</h4>
-<pre><code class="language-bash"># Comando básico para ejecutar pruebas Karate
-mvn clean test
+[.home-hero]
+****
+[.eyebrow]#Automation platform#
+[.hero-title]#Documentacion tecnica para un stack Karate + Spring Boot + Maven#
 
-# Agregar tags específicos
-mvn clean test &quot;-Dkarate.options=--tags @yourTag&quot;
+Este repositorio reune un microservicio demo, una suite E2E con Karate, un arquetipo Maven reutilizable y un sitio Antora para centralizar guias, operaciones y contexto tecnico.
 
-# Configurar el entorno (por defecto se usa el configurado en karate-config.js)
-mvn clean test &quot;-Dkarate.env=yourEnv&quot;
+[.hero-actions]
+* xref:getting-started.adoc[Arrancar el proyecto]
+* xref:karate:index.adoc[Explorar la suite Karate]
+* xref:docs:index.adoc[Entender el sitio Antora]
+****
 
-# Tag y entorno
-mvn clean test &quot;-Dkarate.options=--tags @yourTag&quot; &quot;-Dkarate.env=yourEnv&quot;
-</code></pre>
-<h4>Ejecución local (microservicio propio)</h4>
-<ol>
-<li><p>Inicializa el microservicio demo:</p>
-<pre><code class="language-bash">cd code
-mvn clean install
-java -jar target/karate-demo-micro-0.0.1-SNAPSHOT.jar
-# El microservicio quedará disponible en http://localhost:8080/products
-</code></pre>
-</li>
-<li><p>En otra terminal, ejecuta las pruebas locales:</p>
-<pre><code class="language-bash">cd e2e/karate
-mvn clean install
-mvn clean test -Dkarate.env=local -D&quot;karate.options=--tags @local&quot;
-</code></pre>
-</li>
-</ol>
-<hr>
-<h2>📁 Estructura del Proyecto</h2>
-<p>El proyecto está organizado de la siguiente manera:</p>
-<pre><code>auto-karate-fw/
-├── code/archetype-karate-e2e/     # Arquetipo Maven para generar nuevos proyectos Karate E2E
-├── code/                        # Microservicio Java Spring Boot
-│   ├── src/
-│   └── pom.xml
-├── e2e/
-│   └── karate/
-│       ├── src/
-│       │   └── test/
-│       │       ├── java/                       # Código Java de tests y utilidades
-│       │       │   └── tests/                  # (Ej: KarateRunnerTest.java, utils, etc.)
-│       │       └── resources/                  # Features y configuración Karate
-│       │           ├── karate-config.js        # Configuración global Karate
-│       │           ├── config-local.yml        # Configuración local
-│       │           ├── config-pre.yml          # Configuración pre
-│       │           ├── log4j2.properties       # Logging
-│       │           ├── logback-test.xml        # Logging para pruebas
-│       │           └── tests/                  # Features Karate organizados por dominio
-│       │               └── products/
-│       │                   ├── getProductsLocal/   # Prueba local
-│       │                   ├── getAllProducts/     # Prueba remota
-│       │                   └── ...
-│       ├── combine-reports.js                  # Script para combinar reportes
-│       ├── pom.xml                             # Configuración Maven para Karate
-│       └── .gitignore
-└── README.md
-</code></pre>
-<h3>Descripción de Archivos y Carpetas</h3>
-<ul>
-<li><strong><code>code/</code></strong>: Microservicio Java Spring Boot para pruebas locales.</li>
-<li><strong><code>code/archetype-karate-e2e/</code></strong>: Arquetipo Maven que permite generar proyectos de automatización Karate con (o sin) un módulo opcional de microservicio Spring Boot. Útil para estandarizar la creación rápida de nuevos repos.</li>
-<li><strong><code>e2e/karate/</code></strong>: Proyecto de automatización Karate.<ul>
-<li><strong><code>src/test/java/</code></strong>: Código Java de tests y utilidades.<ul>
-<li><strong><code>tests/</code></strong>: Clases de test (por ejemplo, <code>KarateRunnerTest.java</code>).</li>
-<li><strong><code>utils/</code></strong>: Clases utilitarias Java para soporte de tests Karate.</li>
-</ul>
-</li>
-<li><strong><code>src/test/resources/</code></strong>: Configuración, logs y features Karate.<ul>
-<li><strong><code>karate-config.js</code></strong>: Configuración global de Karate.</li>
-<li><strong><code>config-local.yml</code></strong>: Configuración para entorno local.</li>
-<li><strong><code>config-pre.yml</code></strong>: Configuración para entorno pre.</li>
-<li><strong><code>log4j2.properties</code></strong> y <strong><code>logback-test.xml</code></strong>: Logging.</li>
-<li><strong><code>tests/</code></strong>: Features Karate organizados por dominio.<ul>
-<li><strong><code>products/getProductsLocal/</code></strong>: Pruebas locales contra el microservicio demo.</li>
-<li><strong><code>products/getAllProducts/</code></strong>: Pruebas remotas contra el entorno pre/productivo.</li>
-<li>...otras carpetas de pruebas...</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><strong><code>combine-reports.js</code></strong>: Script para combinar reportes JSON.</li>
-<li><strong><code>pom.xml</code></strong>: Configuración Maven para Karate.</li>
-<li><strong><code>.gitignore</code></strong>: Exclusiones de control de versiones.</li>
-</ul>
-</li>
-<li><strong><code>README.md</code></strong>: Documentación del proyecto.</li>
-</ul>
-<hr>
-<h2>📊 Reportes y Resultados</h2>
-<hr>
-<h2>🧬 Arquetipo Maven: <code>archetype-karate-e2e</code></h2>
-<p>El repositorio incluye un arquetipo localizado en <code>code/archetype-karate-e2e</code> que permite crear un nuevo proyecto Karate listo para usar, con opción de incluir un microservicio demo.</p>
-<h3>1. Instalar/Actualizar el arquetipo localmente</h3>
-<p>Desde la carpeta raíz del repo:</p>
-<pre><code class="language-bash">mvn -q -f code/archetype-karate-e2e/pom.xml clean install
-</code></pre>
-<p>Esto instalará el arquetipo en tu repositorio Maven local (<code>~/.m2</code>).</p>
-<h3>2. Generar un nuevo proyecto SIN micro (modo offline por defecto)</h3>
-<pre><code class="language-bash">mvn archetype:generate \
-   -DarchetypeGroupId=com.example.archetypes \
-   -DarchetypeArtifactId=archetype-karate-e2e \
-   -DarchetypeVersion=1.0.6-SNAPSHOT \
-   -DgroupId=com.acme.demo \
-   -DartifactId=demo-e2e-no-micro \
-   -Dversion=1.0.0-SNAPSHOT \
-   -DincludeCodeModule=false \
-   -DinteractiveMode=false
-</code></pre>
-<p>Resultado: proyecto multi-módulo sólo con <code>e2e/karate</code> y un feature offline (sin HTTP) que pasa siempre.</p>
-<h3>3. Generar un proyecto CON micro</h3>
-<pre><code class="language-bash">mvn archetype:generate \
-   -DarchetypeGroupId=com.example.archetypes \
-   -DarchetypeArtifactId=archetype-karate-e2e \
-   -DarchetypeVersion=1.0.6-SNAPSHOT \
-   -DgroupId=com.acme.demo \
-   -DartifactId=demo-e2e-con-micro \
-   -Dversion=1.0.0-SNAPSHOT \
-   -DincludeCodeModule=true \
-   -DinteractiveMode=false
-</code></pre>
-<p>Resultado: proyecto multi-módulo con:</p>
-<ul>
-<li><code>code/</code> Spring Boot (endpoint <code>/products</code>)</li>
-<li><code>e2e/karate/</code> feature que hace GET real contra el micro.</li>
-</ul>
-<h3>4. Variables disponibles</h3>
-<table>
-<thead>
-<tr>
-<th>Propiedad</th>
-<th>Descripción</th>
-<th>Ejemplo</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>includeCodeModule</code></td>
-<td><code>true</code> para incluir microservicio, <code>false</code> para sólo tests</td>
-<td>true</td>
-</tr>
-<tr>
-<td><code>karateVersion</code></td>
-<td>Versión de Karate usada en el módulo de pruebas</td>
-<td>1.4.1</td>
-</tr>
-<tr>
-<td><code>groupId</code> / <code>artifactId</code></td>
-<td>Coordenadas Maven del nuevo proyecto</td>
-<td></td>
-</tr>
-</tbody></table>
-<p>Si algún placeholder no se filtra (corte de red o mirrors), un script post-generación aplica reemplazos de respaldo.</p>
-<h3>5. Flujo típico tras generar</h3>
-<pre><code class="language-bash">cd demo-e2e-con-micro
-mvn clean install -DskipTests
-mvn -pl code spring-boot:run &amp;   # arranca micro (o usar java -jar code/target/*.jar)
-mvn -pl e2e/karate test          # ejecuta tests Karate
-</code></pre>
-<h3>6. Estructura generada (con micro)</h3>
-<pre><code>demo-e2e-con-micro/
-├── pom.xml (parent)
-├── code/ (microservicio Spring Boot)
-└── e2e/karate/ (tests Karate)
-</code></pre>
-<h3>7. Notas</h3>
-<ul>
-<li>El feature por defecto en modo con micro valida lista de productos.</li>
-<li>En modo sin micro se usa un feature offline para evitar dependencias de red / puertos.</li>
-<li>Puedes añadir mocks embebidos activando el ejemplo comentado en el feature offline.</li>
-</ul>
-<hr>
-<p>El proyecto genera los siguientes reportes y resultados:</p>
-<h3>Reportes de Karate</h3>
-<p>Tras la ejecución de las pruebas, se generan varios reportes en la carpeta <code>target</code>:</p>
-<ol>
-<li><p><strong>Reporte HTML</strong>:</p>
-<ul>
-<li>Ubicación: <code>target/karate-reports/</code></li>
-<li>Archivo principal: <code>karate-summary.html</code></li>
-<li>Descripción: Este reporte proporciona un resumen visual de las pruebas ejecutadas, incluyendo el número de escenarios pasados y fallidos, así como enlaces a los detalles de cada prueba.</li>
-</ul>
-</li>
-<li><p><strong>Reporte de Línea de Tiempo</strong>:</p>
-<ul>
-<li>Ubicación: <code>target/karate-reports/</code></li>
-<li>Archivo: <code>karate-timeline.html</code></li>
-<li>Descripción: Muestra una línea de tiempo interactiva con la duración de cada escenario, útil para identificar cuellos de botella en las pruebas.</li>
-</ul>
-</li>
-<li><p><strong>Reporte de Características (Features)</strong>:</p>
-<ul>
-<li>Ubicación: <code>target/karate-reports/</code></li>
-<li>Archivos: <code>karate-summary.html</code> y <code>karate-tags.html</code></li>
-<li>Descripción: Incluye detalles de las características probadas, agrupadas por etiquetas (tags) y escenarios.</li>
-</ul>
-</li>
-<li><p><strong>Reporte Cucumber JSON</strong>:</p>
-<ul>
-<li>Ubicación: <code>target/</code></li>
-<li>Archivo: <code>cucumber-report.json</code></li>
-<li>Descripción: Archivo en formato JSON compatible con herramientas externas para análisis adicional o integración con sistemas como Jenkins.</li>
-</ul>
-</li>
-<li><p><strong>Reporte JUnit XML</strong>:</p>
-<ul>
-<li>Ubicación: <code>target/surefire-reports/</code></li>
-<li>Archivo: <code>TEST-tests.KarateRunnerTest.xml</code></li>
-<li>Descripción: Reporte en formato XML compatible con JUnit, útil para integraciones con sistemas de CI/CD.</li>
-</ul>
-</li>
-<li><p><strong>Reportes HTML Detallados por Escenario</strong>:</p>
-<ul>
-<li>Ubicación: <code>target/karate-reports/</code></li>
-<li>Ejemplo: <code>tests.products.e2e.searchById.searchById.html</code></li>
-<li>Descripción: Reportes individuales para cada escenario, con detalles de los pasos ejecutados, tiempos y resultados.</li>
-</ul>
-</li>
-<li><p><strong>Reporte de Tags</strong>:</p>
-<ul>
-<li>Ubicación: <code>target/cucumber-html-reports/</code></li>
-<li>Archivo: <code>overview-tags.html</code></li>
-<li>Descripción: Muestra estadísticas agrupadas por etiquetas, incluyendo el número de pasos y escenarios pasados o fallidos.</li>
-</ul>
-</li>
-<li><p><strong>Reporte de Fallos</strong>:</p>
-<ul>
-<li>Ubicación: <code>target/cucumber-html-reports/</code></li>
-<li>Archivo: <code>overview-failures.html</code></li>
-<li>Descripción: Lista los escenarios fallidos (si los hay) para facilitar su análisis.</li>
-</ul>
-</li>
-</ol>
-<h3>Uso del Script <code>combine-reports.js</code></h3>
-<p>El archivo <code>combine-reports.js</code> es un script Node.js que combina múltiples reportes JSON generados por Karate en un único archivo. Esto es útil para integraciones con herramientas como Jira, donde se requiere un único reporte consolidado.</p>
-<p>Para ejecutarlo:</p>
-<pre><code class="language-bash">node combine-reports.js
-</code></pre>
-<p>El script buscará los reportes JSON en la carpeta de destino y generará un archivo combinado llamado <code>cucumber-result.json</code> en la carpeta <code>target</code>.</p>
-<hr>
-<h2>🤝 Contribuir</h2>
-<ol>
-<li>Fork el proyecto.</li>
-<li>Crea una feature branch (<code>git checkout -b feature/nueva-funcionalidad</code>).</li>
-<li>Commit tus cambios (<code>git commit -am &#39;Agregar nueva funcionalidad&#39;</code>).</li>
-<li>Push a la rama (<code>git push origin feature/nueva-funcionalidad</code>).</li>
-<li>Crear un Pull Request.</li>
-</ol>
-<hr>
-<h2>🎯 Próximos Pasos</h2>
-<ol>
-<li><strong>Configura tu entorno</strong>: Asegúrate de tener todas las dependencias instaladas.</li>
-<li><strong>Elige tu enfoque</strong>: Decide si necesitas pruebas funcionales, de rendimiento o ambas.</li>
-<li><strong>Ejecuta las pruebas</strong>: Usa los comandos proporcionados para comenzar.</li>
-<li><strong>Explora los reportes</strong>: Revisa los resultados en los reportes nativos de Karate o Gatling.</li>
-<li><strong>Integra con Jira</strong>: Usa <code>combine-reports.js</code> para consolidar reportes.</li>
-</ol>
-<hr>
-<p>¿Tienes dudas? Revisa la estructura del proyecto o consulta la documentación de Karate para más detalles.</p>
-++++
+[.home-card-grid]
+* [.home-card-title]#Quick start# +
+  Arranca el microservicio, ejecuta la verificacion remota y prueba el flujo `@local` contra una instancia real. +
+  xref:getting-started.adoc[Ver pasos y comandos]
+* [.home-card-title]#Karate E2E# +
+  La suite usa Karate 2.0.2 sobre Java 21, con entorno `pre` para ejecucion remota y `local` para desarrollador. +
+  xref:karate:index.adoc[Ir al modulo E2E]
+* [.home-card-title]#Microservicio demo# +
+  El servicio Spring Boot expone `/products` y sirve como apoyo al flujo local de desarrollo y al proyecto generado por el arquetipo. +
+  xref:microservice:index.adoc[Ver el microservicio]
+* [.home-card-title]#Arquetipo Maven# +
+  Genera un proyecto con `e2e/karate`, opcionalmente con `code/`, y arranca con CI y configuracion actualizada. +
+  xref:archetype:index.adoc[Ver el arquetipo]
+* [.home-card-title]#Sitio de documentacion# +
+  Antora publica esta documentacion en GitHub Pages con una UI personalizada para navegar por guias, modulos y operaciones del proyecto. +
+  xref:docs:index.adoc[Ver el workspace de docs]
+
+== Estado actual del proyecto
+
+* Java 21 en microservicio, suite E2E y arquetipo.
+* Karate 2.0.2 y ejecucion estandar con `--tags ~@local`.
+* Flujo `@local` pensado para desarrollador: requiere levantar el servicio demo.
+* Publicacion automatica de la documentacion en GitHub Pages desde `.github/workflows/antora.yml`.
+
+== Rutas recomendadas
+
+* Si vienes a ejecutar el repo por primera vez, empieza por xref:getting-started.adoc[Quick start].
+* Si quieres entender la estructura de pruebas, ve a xref:karate:index.adoc[Karate E2E].
+* Si vas a tocar la documentacion o la UI de Antora, ve a xref:docs:index.adoc[Workspace Antora].

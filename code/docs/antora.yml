@@ -1,5 +1,5 @@
 name: auto-karate
-title: Auto Karate Docs
+title: FWK Karate AutoMulti
 version: ~
 nav:
   - modules/ROOT/nav.adoc
