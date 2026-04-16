@@ -54,8 +54,11 @@ strong,b,.doc strong,.doc b{color:#f8fafc;font-weight:700}
 .eyebrow{display:inline-block;margin-bottom:.6rem;color:var(--docs-link);font-size:.82rem;letter-spacing:.12em;text-transform:uppercase;font-weight:700}
 .hero-title{display:block;margin:.2rem 0 0;color:#f8fafc;font-size:clamp(2rem,4vw,3.1rem);font-weight:800;line-height:1.05}
 .hero-actions{margin-top:1.5rem}
-.hero-actions ul{display:flex;flex-wrap:wrap;gap:.75rem;padding-left:0;list-style:none}
-.hero-actions a{display:inline-flex;align-items:center;padding:.75rem 1rem;border:1px solid var(--docs-border-soft);border-radius:999px;color:var(--docs-text);text-decoration:none;background:rgba(88,166,255,.08)}
+.hero-actions ul{display:flex;flex-wrap:wrap;gap:.75rem;align-items:flex-start;padding-left:0;list-style:none}
+.hero-actions ul>li{margin:0!important}
+.hero-actions ul>li+li{margin-top:0!important}
+.hero-actions li>p{margin:0!important}
+.hero-actions a{display:inline-flex;align-items:center;padding:.75rem 1rem;border:1px solid var(--docs-border-soft);border-radius:999px;color:var(--docs-text);text-decoration:none;line-height:1.2;background:rgba(88,166,255,.08)}
 .hero-actions a:hover{background:rgba(88,166,255,.16);color:#fff}
 
 .doc .ulist.home-card-grid{margin:0 0 2rem}
