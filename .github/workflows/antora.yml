@@ -20,9 +20,6 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Install Antora
-        run: npm install -g @antora/cli @antora/site-generator-default @antora/site-generator
-
       - name: Install docs dependencies
         working-directory: code/docs
         run: npm ci
@@ -33,7 +30,7 @@ jobs:
 
       - name: Build Antora site
         working-directory: code/docs
-        run: antora antora-playbook.yml
+        run: npm run build:prod
 
       - name: Flatten site output
         working-directory: code/docs/build/site

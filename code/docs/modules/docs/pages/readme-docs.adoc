@@ -1,0 +1,53 @@
+= Workspace Antora
+:page-component: auto-karate
+// GENERATED-BY: ingest-readmes.js
+
+++++
+<h1>Workspace Antora</h1>
+<p>Directorio de la documentacion Antora del repositorio.</p>
+<h2>Overview</h2>
+<p>Contiene:</p>
+<ul>
+<li>playbooks de desarrollo y publicacion</li>
+<li>paginas AsciiDoc mantenidas manualmente</li>
+<li>ingesta auxiliar desde README</li>
+<li>overrides visuales en <code>ui/supplemental/</code></li>
+<li>empaquetado local de la UI con <code>scripts/bundle-ui.js</code></li>
+</ul>
+<h2>Requirements</h2>
+<ul>
+<li>Node.js 18 o superior</li>
+</ul>
+<h2>Installation</h2>
+<pre><code class="language-bash">cd code/docs
+npm ci
+</code></pre>
+<h2>Execution</h2>
+<p>Build local de desarrollo:</p>
+<pre><code class="language-bash">npm run build:dev
+npm run preview
+</code></pre>
+<p>Build de produccion:</p>
+<pre><code class="language-bash">npm run ui:bundle
+npm run build:prod
+</code></pre>
+<p>Actualizar snapshots desde README:</p>
+<pre><code class="language-bash">npm run ingest
+</code></pre>
+<h2>Structure</h2>
+<pre><code class="language-text">code/docs/
+├── antora.yml
+├── antora-playbook.dev.yml
+├── antora-playbook.yml
+├── ingest-readmes.js
+├── modules/
+├── scripts/
+└── ui/supplemental/
+</code></pre>
+<h2>Contribution</h2>
+<ul>
+<li>Mantener la home y las paginas principales como contenido editorial Antora.</li>
+<li>Usar <code>ingest-readmes.js</code> solo como referencia auxiliar desde README.</li>
+<li>No tocar bundles minificados en <code>ui-bundle-extract/</code> ni <code>ui-bundle/</code>.</li>
+</ul>
+++++
