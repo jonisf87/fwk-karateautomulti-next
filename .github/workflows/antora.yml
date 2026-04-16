@@ -32,16 +32,10 @@ jobs:
         working-directory: code/docs
         run: npm run build:prod
 
-      - name: Flatten site output
+      - name: Prepare GitHub Pages output
         working-directory: code/docs/build/site
         shell: bash
-        run: |
-          shopt -s dotglob
-          if [ -d auto-karate ]; then
-            mv auto-karate/* ./
-            rm -rf auto-karate
-          fi
-          touch .nojekyll
+        run: touch .nojekyll
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
