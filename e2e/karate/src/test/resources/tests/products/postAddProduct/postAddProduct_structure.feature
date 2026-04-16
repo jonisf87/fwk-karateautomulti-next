@@ -13,4 +13,4 @@ Feature: Test POST add product
 
         Examples:
             | testDataFile                                                         |
-            | classpath:tests/products/postAddProduct/test-data/structure/200.json |
+            | classpath:tests/products/postAddProduct/test-data/structure/201.json |
