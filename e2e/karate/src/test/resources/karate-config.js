@@ -1,23 +1,17 @@
 function fn() {
-  var env = karate.env; // get system property 'karate.env'
-  karate.log('karate.env system property was:', env);
-  if (!env) {
-    env = 'pre';
-  }
+  var env = karate.env || 'pre';
+  var environmentConfig = karate.read('classpath:config-' + env + '.yml');
   var config = {
     env: env,
-   
-    //myVarName: 'someValue'
-  }
-  
-  karate.set(read('classpath:config-' + env + '.yml'));
-  
-  if (env == 'mock') {
-    // customize
-    // e.g. config.foo = 'bar';
-    
-  } else if (env == 'des') {
-    // customize
-  }
+    urls: environmentConfig.urls || {},
+    timeouts: environmentConfig.timeouts || {
+      connect: 5000,
+      read: 10000
+    }
+  };
+
+  karate.configure('connectTimeout', config.timeouts.connect);
+  karate.configure('readTimeout', config.timeouts.read);
+
   return config;
 }

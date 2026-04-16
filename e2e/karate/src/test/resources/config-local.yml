@@ -1,3 +1,5 @@
 urls:
-  demoApplicationUrl: 'http://localhost:8080/products'
-credentials:
+  demoApplicationUrl: "http://localhost:8080/products"
+timeouts:
+  connect: 5000
+  read: 10000

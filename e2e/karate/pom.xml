@@ -9,20 +9,24 @@
  
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <java.version>11</java.version>
-        <maven.compiler.version>3.11.0</maven.compiler.version>
-        <maven.surefire.version>3.0.0</maven.surefire.version>        
-        <karate.version>1.4.1</karate.version>
-        <junit.version>5.7.0</junit.version>
-        <fasterxml.version>2.14.0</fasterxml.version>
-        <masterthought.version>5.7.0</masterthought.version>
+        <java.version>21</java.version>
+        <maven.compiler.version>3.15.0</maven.compiler.version>
+        <maven.surefire.version>3.5.5</maven.surefire.version>
+        <maven.checkstyle.version>3.6.0</maven.checkstyle.version>
+        <checkstyle.version>13.4.0</checkstyle.version>
+        <prettier.maven.version>0.22</prettier.maven.version>
+        <karate.version>2.0.2</karate.version>
+        <junit.version>5.10.5</junit.version>
+        <junit.platform.version>1.10.5</junit.platform.version>
+        <fasterxml.version>2.21.2</fasterxml.version>
+        <masterthought.version>5.11.0</masterthought.version>
         <scala.maven.plugin.version>4.8.1</scala.maven.plugin.version>
     </properties>    
 
     <dependencies>         
         <dependency>
-            <groupId>com.intuit.karate</groupId>
-            <artifactId>karate-junit5</artifactId>
+            <groupId>io.karatelabs</groupId>
+            <artifactId>karate-core</artifactId>
             <version>${karate.version}</version>
             <scope>test</scope>
         </dependency>
@@ -37,6 +41,12 @@
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
             <version>${junit.version}</version> 
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-suite</artifactId>
+            <version>${junit.platform.version}</version>
             <scope>test</scope>
         </dependency>
          <!-- fasterxml -->
@@ -68,6 +78,9 @@
                     <exclude>**/*.java</exclude>
                 </excludes>
             </testResource>
+            <testResource>
+                <directory>src/test/resources</directory>
+            </testResource>
         </testResources>
         <plugins>
             <plugin>
@@ -87,6 +100,52 @@
                 <configuration>
                     <argLine>-Dfile.encoding=UTF-8</argLine>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>${maven.checkstyle.version}</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.puppycrawl.tools</groupId>
+                        <artifactId>checkstyle</artifactId>
+                        <version>${checkstyle.version}</version>
+                    </dependency>
+                </dependencies>
+                <configuration>
+                    <configLocation>google_checks.xml</configLocation>
+                    <consoleOutput>true</consoleOutput>
+                    <failsOnError>true</failsOnError>
+                    <includeTestSourceDirectory>true</includeTestSourceDirectory>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>com.hubspot.maven.plugins</groupId>
+                <artifactId>prettier-maven-plugin</artifactId>
+                <version>${prettier.maven.version}</version>
+                <configuration>
+                    <inputGlobs>
+                        <inputGlob>src/test/resources/**/*.json</inputGlob>
+                        <inputGlob>src/test/resources/**/*.yaml</inputGlob>
+                        <inputGlob>src/test/resources/**/*.yml</inputGlob>
+                    </inputGlobs>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>        
     </build>       
