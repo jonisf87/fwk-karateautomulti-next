@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+repo_root="$(git rev-parse --show-toplevel)"
+cd "${repo_root}"
+
+scripts/validate-branch-name.sh
+
+staged_files="$(git diff --cached --name-only --diff-filter=ACMR)"
+
+if [[ -z "${staged_files}" ]]; then
+  exit 0
+fi
+
+require_java_21() {
+  local major
+  major="$(java -version 2>&1 | awk -F '[\".]' '/version/ {print $2; exit}')"
+  if [[ -z "${major}" || "${major}" -lt 21 ]]; then
+    echo "Java 21 is required for the repository hooks. Current runtime: ${major:-unknown}" >&2
+    exit 1
+  fi
+}
+
+run_code_checks=0
+run_karate_checks=0
+
+while IFS= read -r file_path; do
+  [[ -z "${file_path}" ]] && continue
+  if [[ "${file_path}" == code/* ]]; then
+    run_code_checks=1
+  fi
+  if [[ "${file_path}" == e2e/karate/* ]]; then
+    run_karate_checks=1
+  fi
+done <<< "${staged_files}"
+
+if [[ "${run_code_checks}" -eq 1 || "${run_karate_checks}" -eq 1 ]]; then
+  require_java_21
+fi
+
+if [[ "${run_code_checks}" -eq 1 ]]; then
+  mvn -B -ntp -f code/pom.xml verify
+fi
+
+if [[ "${run_karate_checks}" -eq 1 ]]; then
+  mvn -B -ntp -f e2e/karate/pom.xml -DskipTests verify
+fi
