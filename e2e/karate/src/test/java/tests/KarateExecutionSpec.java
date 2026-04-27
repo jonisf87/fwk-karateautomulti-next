@@ -6,6 +6,8 @@ import io.karatelabs.core.Runner;
 import io.karatelabs.core.SuiteResult;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -80,10 +82,17 @@ final class KarateExecutionSpec {
     Process process =
         new ProcessBuilder("node", "combine-reports.js")
             .directory(new File("."))
-            .inheritIO()
+            .redirectErrorStream(true)
             .start();
+    String processOutput;
+    try (InputStream processInputStream = process.getInputStream()) {
+      processOutput = new String(processInputStream.readAllBytes(), StandardCharsets.UTF_8);
+    }
 
     int exitCode = process.waitFor();
+    if (!processOutput.isBlank()) {
+      System.out.print(processOutput);
+    }
     if (exitCode != 0) {
       throw new IllegalStateException("combine-reports.js failed with exit code " + exitCode);
     }
