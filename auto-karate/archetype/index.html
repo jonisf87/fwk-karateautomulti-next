@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Arquetipo Maven :: FWK Karate AutoMulti</title>
+    <link rel="canonical" href="https://jonisf87.github.io/fwk-karateautomulti/auto-karate/archetype/index.html">
+    <link rel="prev" href="../microservice/index.html">
+    <link rel="next" href="../docs/index.html">
+    <meta name="generator" content="Antora 3.1.7">
+<link rel="stylesheet" href="../../_/css/site.css">
+<style>
+:root{--docs-bg:#0d1117;--docs-surface:#161b22;--docs-surface-2:#21262d;--docs-border:#30363d;--docs-border-soft:#484f58;--docs-text:#e6edf3;--docs-muted:#8b949e;--docs-link:#58a6ff;--docs-link-hover:#79c0ff;--docs-shadow:0 14px 30px rgba(1,4,9,.28);--docs-font:Inter,"Segoe UI",Roboto,sans-serif}
+html,body{background:var(--docs-bg)}
+body{font-family:var(--docs-font);color:var(--docs-text)}
+a{color:var(--docs-link)}
+a:hover{color:var(--docs-link-hover)}
+strong,b,.doc strong,.doc b{color:#f8fafc;font-weight:700}
+.edit-this-page{display:none!important}
+
+.header,.navbar{background:var(--docs-bg)!important;border-bottom:1px solid var(--docs-border)!important}
+.navbar{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:0 .75rem}
+.navbar-item,.navbar-link{color:var(--docs-text)!important}
+.navbar-item:hover,.navbar-link:hover{background:rgba(88,166,255,.08);color:#fff}
+.brand-mark{gap:.65rem;font-weight:700;letter-spacing:0}
+.brand-icon{color:var(--docs-link)}
+.nav-github{border:1px solid var(--docs-border-soft);border-radius:999px;padding:.35rem .75rem!important;line-height:1.2;white-space:nowrap}
+
+.body,.nav-container,.nav,.article,.toolbar,.doc,.toc.sidebar{background:transparent}
+.toolbar{background:var(--docs-surface);border-bottom:1px solid var(--docs-border)}
+.breadcrumbs a,.toolbar .home-link{color:var(--docs-muted)}
+.breadcrumbs a:hover{color:#fff}
+.toolbar .nav-toggle,.toolbar .home-link{color:var(--docs-text)!important;opacity:1!important;filter:brightness(0) saturate(100%) invert(92%) sepia(13%) saturate(224%) hue-rotate(176deg) brightness(101%) contrast(92%)}
+.toolbar .nav-toggle:hover,.toolbar .home-link:hover{filter:brightness(0) saturate(100%) invert(100%)}
+
+.nav-panel-menu,.nav-panel-explore,.toc.sidebar,.toc.sidebar .toc-menu{background:var(--docs-surface-2)!important;border-color:var(--docs-border)!important;box-shadow:none!important}
+.nav-menu .title a,.nav-menu h3.title a{color:var(--docs-text)!important;font-weight:700!important;opacity:1!important}
+.nav-menu .title,.nav-menu h3.title{color:var(--docs-text)!important;opacity:1!important}
+.toc.sidebar{display:none!important;background:var(--docs-surface-2)!important;padding:0 1rem 0 0!important}
+.toc.sidebar::before,.toc.sidebar .toc-menu h3{color:var(--docs-text)!important;font-weight:700!important;opacity:1!important;font-size:1rem!important;letter-spacing:0!important}
+.toc.sidebar .toc-menu{position:static!important;top:auto!important;margin-right:0!important;padding:1rem 0 1rem 1rem!important;min-height:100%}
+.toc.sidebar .toc-menu ul{max-height:none!important;overflow:visible!important}
+.toc.sidebar .toc-menu ul,.toc.sidebar .toc-menu li,.toc.sidebar .toc-menu a{border-left:none!important;box-shadow:none!important}
+.toc.sidebar .toc-menu a{padding-left:0!important;color:var(--docs-text)!important;opacity:.92!important}
+.toc.sidebar .toc-menu a:hover{color:#fff!important}
+.toc.sidebar .toc-menu .is-current-toc-node>a,.toc.sidebar .toc-menu .is-active>a{color:#fff!important;font-weight:600!important}
+.nav-list a,.nav-panel-explore .context a,.toc.sidebar a{color:var(--docs-muted)}
+.nav-list a.is-current-page,.nav-list a:hover,.toc.sidebar a:hover{color:#fff}
+.nav-item-toggle::before{filter:brightness(1.35)}
+.nav,.nav-container,.nav-panel-menu,.nav-panel-explore{scrollbar-width:none}
+.nav::-webkit-scrollbar,.nav-container::-webkit-scrollbar,.nav-panel-menu::-webkit-scrollbar,.nav-panel-explore::-webkit-scrollbar{display:none;width:0;height:0}
+
+.doc{color:var(--docs-text)}
+.doc>h1.page{margin-top:1rem}
+.doc h1,.doc h2,.doc h3,.doc h4{color:#f8fafc}
+.doc p,.doc li,.doc td,.doc th{color:var(--docs-muted)}
+.doc code{background:#f8fafc;color:#111827;border-radius:4px;padding:.1rem .35rem}
+.doc .listingblock>.content,.doc .literalblock>.content{background:var(--docs-bg);border:1px solid var(--docs-border);border-radius:10px}
+.doc table.tableblock{background:var(--docs-surface);border-color:var(--docs-border)}
+
+.doc .sidebarblock.home-hero{margin:0 0 2rem;background:linear-gradient(180deg,rgba(88,166,255,.08),rgba(88,166,255,0) 45%),var(--docs-surface-2);border:1px solid var(--docs-border);border-radius:18px;box-shadow:var(--docs-shadow)}
+.doc .sidebarblock.home-hero>.content{color:var(--docs-text)}
+.doc .sidebarblock.home-hero p{color:var(--docs-muted)}
+.eyebrow{display:inline-block;margin-bottom:.6rem;color:var(--docs-link);font-size:.82rem;letter-spacing:.12em;text-transform:uppercase;font-weight:700}
+.hero-title{display:block;margin:.2rem 0 0;color:#f8fafc;font-size:clamp(2rem,4vw,3.1rem);font-weight:800;line-height:1.05}
+.hero-actions{margin-top:1.5rem}
+.hero-actions ul{display:flex;flex-wrap:wrap;gap:.75rem;align-items:flex-start;padding-left:0;list-style:none}
+.hero-actions ul>li{margin:0!important}
+.hero-actions ul>li+li{margin-top:0!important}
+.hero-actions li>p{margin:0!important}
+.hero-actions a{display:inline-flex;align-items:center;padding:.75rem 1rem;border:1px solid var(--docs-border-soft);border-radius:999px;color:var(--docs-text);text-decoration:none;line-height:1.2;background:rgba(88,166,255,.08)}
+.hero-actions a:hover{background:rgba(88,166,255,.16);color:#fff}
+
+.doc .ulist.home-card-grid{margin:0 0 2rem}
+.doc .ulist.home-card-grid>ul{display:grid;gap:1rem;padding-left:0;list-style:none}
+.doc .ulist.home-card-grid>ul>li{margin:0;padding:1.25rem;border:1px solid var(--docs-border);border-radius:14px;background:var(--docs-surface-2);box-shadow:var(--docs-shadow)}
+.home-card-title{display:block;margin-bottom:.75rem;color:#f8fafc;font-size:1.08rem;font-weight:700}
+
+.footer{background:var(--docs-surface)!important;border-top:1px solid var(--docs-border)!important}
+.footer,.footer *{color:#e5e7eb!important}
+.footer a{color:var(--docs-link)!important}
+.footer a:hover{color:#fff!important}
+.footer-simple{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
+
+@media screen and (min-width:1024px){
+  main>.content{display:grid!important;grid-template-columns:minmax(0,1fr) 16rem!important;align-items:start!important}
+  .toc.sidebar{display:block!important}
+  main>.content>.toc.sidebar{grid-column:2}
+  main>.content>article.doc{grid-column:1;max-width:none!important;min-width:0}
+  .doc .ulist.home-card-grid>ul{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media screen and (max-width:768px){
+  .navbar{padding:0 .5rem}
+  .brand-mark{padding-left:.25rem}
+  .brand-mark span:last-child{font-size:1rem;line-height:1.15}
+  .nav-github{display:none!important}
+  .footer-simple{flex-direction:column;align-items:flex-start}
+}
+</style>
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item brand-mark" href="../../auto-karate/index.html">
+        <span class="brand-icon" aria-hidden="true">▣</span>
+        <span>FWK Karate AutoMulti</span>
+      </a>
+    </div>
+    <div class="navbar-end">
+      <a class="navbar-item nav-github" href="https://github.com/jonisf87/fwk-karateautomulti">GitHub</a>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="auto-karate" data-version="">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <button class="nav-menu-toggle" aria-label="Toggle expand/collapse all" style="display: none"></button>
+    <h3 class="title"><a href="../index.html">FWK Karate AutoMulti</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../index.html">Inicio</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../getting-started.html">Quick start</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Plataforma</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../karate/index.html">Karate E2E</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../microservice/index.html">Microservicio demo</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="2">
+    <a class="nav-link" href="index.html">Arquetipo Maven</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Documentación del sitio</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../docs/index.html">Workspace Antora</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../docs/publishing.html">Publicación</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../docs/readme-sync.html">Ingesta de README</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../changelog.html">Changelog</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="../index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="../index.html">FWK Karate AutoMulti</a></li>
+    <li>Plataforma</li>
+    <li><a href="index.html">Arquetipo Maven</a></li>
+  </ul>
+</nav>
+<div class="edit-this-page"><a href="https://github.com/jonisf87/fwk-karateautomulti-next/edit/main/code/docs/modules/archetype/pages/index.adoc">Edit this Page</a></div>
+</div>
+  <div class="content">
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+<article class="doc">
+<h1 class="page">Arquetipo Maven</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>El arquetipo <code>code/archetype-karate-e2e</code> genera proyectos alineados con el estado actual del repositorio: Java 21, Karate 2.0.2, runner JUnit Platform, soporte <code>APP_PORT</code> para <code>@local</code> y workflow de CI de base.</p>
+</div>
+<div class="paragraph">
+<p>Coordenadas publicas previstas:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>io.github.jonisf87.archetypes:archetype-karate-e2e</code></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_instalar_el_arquetipo_localmente"><a class="anchor" href="#_instalar_el_arquetipo_localmente"></a>Instalar el arquetipo localmente</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">mvn -f code/archetype-karate-e2e/pom.xml clean install</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_consumirlo_desde_github_packages"><a class="anchor" href="#_consumirlo_desde_github_packages"></a>Consumirlo desde GitHub Packages</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>GitHub Packages para Maven requiere autenticacion tambien para paquetes publicos. Para consumir el arquetipo remoto:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>crea un token classic con <code>read:packages</code></p>
+</li>
+<li>
+<p>exporta <code>GITHUB_PACKAGES_TOKEN</code></p>
+</li>
+<li>
+<p>configura <code>~/.m2/settings.xml</code> con el repositorio <code><a href="https://maven.pkg.github.com/jonisf87/fwk-karateautomulti" class="bare">https://maven.pkg.github.com/jonisf87/fwk-karateautomulti</a></code></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 https://maven.apache.org/xsd/settings-1.0.0.xsd"&gt;
+  &lt;activeProfiles&gt;
+    &lt;activeProfile&gt;github-archetype&lt;/activeProfile&gt;
+  &lt;/activeProfiles&gt;
+  &lt;profiles&gt;
+    &lt;profile&gt;
+      &lt;id&gt;github-archetype&lt;/id&gt;
+      &lt;repositories&gt;
+        &lt;repository&gt;
+          &lt;id&gt;central&lt;/id&gt;
+          &lt;url&gt;https://repo.maven.apache.org/maven2&lt;/url&gt;
+        &lt;/repository&gt;
+        &lt;repository&gt;
+          &lt;id&gt;github&lt;/id&gt;
+          &lt;url&gt;https://maven.pkg.github.com/jonisf87/fwk-karateautomulti&lt;/url&gt;
+        &lt;/repository&gt;
+      &lt;/repositories&gt;
+    &lt;/profile&gt;
+  &lt;/profiles&gt;
+  &lt;servers&gt;
+    &lt;server&gt;
+      &lt;id&gt;github&lt;/id&gt;
+      &lt;username&gt;jonisf87&lt;/username&gt;
+      &lt;password&gt;${env.GITHUB_PACKAGES_TOKEN}&lt;/password&gt;
+    &lt;/server&gt;
+  &lt;/servers&gt;
+&lt;/settings&gt;</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_generar_un_proyecto_solo_con_e2e"><a class="anchor" href="#_generar_un_proyecto_solo_con_e2e"></a>Generar un proyecto solo con E2E</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">mvn archetype:generate \
+  -DarchetypeGroupId=io.github.jonisf87.archetypes \
+  -DarchetypeArtifactId=archetype-karate-e2e \
+  -DarchetypeVersion=1.0.0-SNAPSHOT \
+  -DgroupId=com.acme \
+  -DartifactId=demo-e2e-no-micro \
+  -Dversion=1.0.0-SNAPSHOT \
+  -Dpackage=com.acme.demo \
+  -DincludeCodeModule=false \
+  -DinteractiveMode=false</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Este modo deja un proyecto centrado en <code>e2e/karate</code>, con un feature offline como base de arranque.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_generar_un_proyecto_con_microservicio_demo"><a class="anchor" href="#_generar_un_proyecto_con_microservicio_demo"></a>Generar un proyecto con microservicio demo</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">mvn archetype:generate \
+  -DarchetypeGroupId=io.github.jonisf87.archetypes \
+  -DarchetypeArtifactId=archetype-karate-e2e \
+  -DarchetypeVersion=1.0.0 \
+  -DgroupId=com.acme \
+  -DartifactId=demo-e2e-con-micro \
+  -Dversion=1.0.0-SNAPSHOT \
+  -Dpackage=com.acme.demo \
+  -DincludeCodeModule=true \
+  -DinteractiveMode=false</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>El proyecto generado incluye:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>parent Maven multi-modulo</p>
+</li>
+<li>
+<p><code>code/</code> con el endpoint <code>/products</code></p>
+</li>
+<li>
+<p><code>e2e/karate/</code> con suite lista para <code>~@local</code> y <code>@local</code></p>
+</li>
+<li>
+<p><code>.github/workflows/ci.yml</code></p>
+</li>
+<li>
+<p><code>.gitignore</code></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_flujo_recomendado_tras_generar"><a class="anchor" href="#_flujo_recomendado_tras_generar"></a>Flujo recomendado tras generar</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">cd demo-e2e-con-micro
+mvn -pl code clean verify
+mvn -pl e2e/karate clean verify '-Dkarate.options=--tags ~@local'</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Para probar <code>@local</code>, levanta el servicio y exporta <code>APP_PORT</code> si usas un puerto distinto.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_parametros_clave"><a class="anchor" href="#_parametros_clave"></a>Parametros clave</h2>
+<div class="sectionbody">
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parametro</th>
+<th class="tableblock halign-left valign-top">Uso</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>includeCodeModule</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Incluye o excluye el modulo <code>code/</code>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>karateVersion</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Version de Karate del proyecto generado.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>groupId</code>, <code>artifactId</code>, <code>version</code>, <code>package</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Coordenadas Maven y package base del nuevo proyecto.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_validacion_aplicada_en_este_repositorio"><a class="anchor" href="#_validacion_aplicada_en_este_repositorio"></a>Validacion aplicada en este repositorio</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>El arquetipo se ha validado generando un proyecto real con <code>includeCodeModule=true</code>, ejecutando <code>code/</code>, la suite <code>~@local</code> y el flujo <code>@local</code> contra un servicio demo levantado en un puerto distinto de <code>8080</code>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_flujo_de_release"><a class="anchor" href="#_flujo_de_release"></a>Flujo de release</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>La publicacion remota del arquetipo se realiza con tags <code>vX.Y.Z</code> mediante <code>.github/workflows/publish-archetype.yml</code>. El workflow:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>toma la version desde el tag</p>
+</li>
+<li>
+<p>ajusta el <code>pom.xml</code> del modulo solo dentro del job</p>
+</li>
+<li>
+<p>valida la generacion del arquetipo desde el catalogo local</p>
+</li>
+<li>
+<p>publica el artefacto en GitHub Packages</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<nav class="pagination">
+  <span class="prev"><a href="../microservice/index.html">Microservicio demo</a></span>
+  <span class="next"><a href="../docs/index.html">Workspace Antora</a></span>
+</nav>
+</article>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <div class="footer-simple">
+    <p><strong>FWK Karate AutoMulti</strong></p>
+    <p>
+      <a href="../../auto-karate/getting-started.html">Quick start</a>
+      <span aria-hidden="true">·</span>
+      <a href="../../auto-karate/docs/index.html">Workspace Antora</a>
+      <span aria-hidden="true">·</span>
+      <a href="https://github.com/jonisf87/fwk-karateautomulti">GitHub</a>
+    </p>
+  </div>
+</footer>
+<script id="site-script" src="../../_/js/site.js" data-ui-root-path="../../_"></script>
+<script async src="../../_/js/vendor/highlight.js"></script>
+  </body>
+</html>
