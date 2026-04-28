@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "KarateFailureTriageResult",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "category",
+    "confidence",
+    "summary",
+    "evidence",
+    "reasoning",
+    "recommended_action",
+    "annotation_level"
+  ],
+  "properties": {
+    "category": {
+      "type": "string",
+      "enum": [
+        "ENVIRONMENT_UNAVAILABLE",
+        "DEMO_SERVICE_FAILURE",
+        "FLAKY_TEST",
+        "TEST_DEFECT",
+        "UNKNOWN"
+      ]
+    },
+    "confidence": {
+      "type": "string",
+      "enum": [
+        "high",
+        "medium",
+        "low"
+      ]
+    },
+    "summary": {
+      "type": "string",
+      "minLength": 1
+    },
+    "evidence": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 5,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "reasoning": {
+      "type": "string",
+      "minLength": 1
+    },
+    "recommended_action": {
+      "type": "string",
+      "minLength": 1
+    },
+    "annotation_level": {
+      "type": "string",
+      "enum": [
+        "error",
+        "warning",
+        "notice"
+      ]
+    }
+  }
+}

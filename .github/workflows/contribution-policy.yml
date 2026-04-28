@@ -1,0 +1,67 @@
+name: Contribution Policy
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
+
+jobs:
+  conventional-commits:
+    name: conventional-commits
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Validate commit messages
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          PUSH_BEFORE: ${{ github.event.before }}
+          PUSH_AFTER: ${{ github.sha }}
+          PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -euo pipefail
+
+          if [[ "${EVENT_NAME}" == "pull_request" ]]; then
+            base_ref="${PR_BASE_SHA}"
+            head_ref="${PR_HEAD_SHA}"
+          else
+            head_ref="${PUSH_AFTER}"
+            if [[ -z "${PUSH_BEFORE}" || "${PUSH_BEFORE}" =~ ^0+$ ]]; then
+              base_ref="$(git merge-base "${head_ref}" origin/main)"
+            else
+              base_ref="${PUSH_BEFORE}"
+            fi
+          fi
+
+          mapfile -t commits < <(git rev-list --reverse --no-merges "${base_ref}..${head_ref}")
+
+          if [[ "${#commits[@]}" -eq 0 ]]; then
+            commits=("${head_ref}")
+          fi
+
+          for commit_sha in "${commits[@]}"; do
+            echo "Validating ${commit_sha}"
+            git log --format=%B -n 1 "${commit_sha}" | scripts/validate-conventional-commit.sh
+          done
+
+  branch-name-policy:
+    name: branch-name-policy
+    if: ${{ github.event_name == 'pull_request' }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Validate branch name
+        run: scripts/validate-branch-name.sh "${{ github.head_ref }}"
