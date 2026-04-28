@@ -1,0 +1,328 @@
+name: Shift Left Phase
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
+
+concurrency:
+  group: shift-left-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality-gate:
+    name: quality-gate
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Set up Java 21
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: "21"
+          cache: maven
+
+      - name: Verify Spring Boot module
+        run: mvn -B -ntp -f code/pom.xml clean verify
+
+      - name: Verify Karate module without executing scenarios
+        run: mvn -B -ntp -f e2e/karate/pom.xml -DskipTests clean verify
+
+  mutation-testing:
+    name: mutation-testing
+    runs-on: ubuntu-latest
+    needs: quality-gate
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Set up Java 21
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: "21"
+          cache: maven
+
+      - name: Run PIT mutation testing
+        run: mvn -B -ntp -f code/pom.xml test-compile org.pitest:pitest-maven:mutationCoverage
+
+      - name: Upload PIT reports
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: pit-reports
+          path: code/target/pit-reports/**
+          if-no-files-found: ignore
+
+  karate-e2e:
+    name: karate-e2e
+    runs-on: ubuntu-latest
+    needs: quality-gate
+    timeout-minutes: 20
+    env:
+      APP_PORT: "18081"
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Set up Java 21
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: "21"
+          cache: maven
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: "20"
+
+      - name: Resolve judge demo mode
+        id: judge-demo-mode
+        env:
+          BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
+        run: |
+          case "${BRANCH_NAME}" in
+            test/judge-environment-unavailable)
+              echo "mode=environment_unavailable" >> "$GITHUB_OUTPUT"
+              ;;
+            test/judge-demo-service-failure)
+              echo "mode=demo_service_failure" >> "$GITHUB_OUTPUT"
+              ;;
+            test/judge-flaky-test)
+              echo "mode=flaky_test" >> "$GITHUB_OUTPUT"
+              ;;
+            *)
+              echo "mode=none" >> "$GITHUB_OUTPUT"
+              ;;
+          esac
+
+      - name: Reserve APP_PORT for demo-service-failure scenario
+        if: ${{ steps.judge-demo-mode.outputs.mode == 'demo_service_failure' }}
+        run: |
+          python3 -m http.server "${APP_PORT}" > port-blocker.log 2>&1 &
+          echo "PORT_BLOCKER_PID=$!" >> "$GITHUB_ENV"
+
+      - name: Start demo service
+        if: ${{ steps.judge-demo-mode.outputs.mode != 'environment_unavailable' }}
+        run: |
+          nohup mvn -B -ntp -f code/pom.xml spring-boot:run \
+            -Dspring-boot.run.arguments=--server.port=${APP_PORT} > demo-service.log 2>&1 &
+          echo "DEMO_PID=$!" >> "$GITHUB_ENV"
+
+      - name: Wait for demo service readiness
+        id: readiness
+        if: ${{ steps.judge-demo-mode.outputs.mode != 'environment_unavailable' }}
+        run: |
+          ready=0
+          for attempt in {1..45}; do
+            if curl -fsS http://127.0.0.1:${APP_PORT}/products > demo-service-response.json; then
+              ready=1
+              break
+            fi
+            sleep 2
+          done
+          echo "ready=${ready}" >> "$GITHUB_OUTPUT"
+          if [[ "${ready}" -ne 1 ]]; then
+            echo "::warning::Demo service did not become ready on http://127.0.0.1:${APP_PORT}/products"
+            tail -n 200 demo-service.log || true
+          fi
+
+      - name: Run local Karate scenarios
+        id: karate-run
+        env:
+          DEMO_MODE: ${{ steps.judge-demo-mode.outputs.mode }}
+          READINESS_OK: ${{ steps.readiness.outputs.ready }}
+        run: |
+          set +e
+          case "${DEMO_MODE}" in
+            environment_unavailable)
+              KARATE_ENV_VALUE=pre
+              KARATE_OPTIONS_VALUE="--tags @judge-environment-unavailable"
+              APP_PORT_VALUE=""
+              ;;
+            demo_service_failure)
+              KARATE_ENV_VALUE=local
+              KARATE_OPTIONS_VALUE="--tags @local"
+              APP_PORT_VALUE="${APP_PORT}"
+              ;;
+            flaky_test)
+              KARATE_ENV_VALUE=local
+              KARATE_OPTIONS_VALUE="--tags @judge-flaky"
+              APP_PORT_VALUE="${APP_PORT}"
+              ;;
+            *)
+              KARATE_ENV_VALUE=local
+              KARATE_OPTIONS_VALUE="--tags @local"
+              APP_PORT_VALUE="${APP_PORT}"
+              ;;
+          esac
+
+          if [[ -n "${APP_PORT_VALUE}" ]]; then
+            APP_PORT="${APP_PORT_VALUE}" mvn -B -ntp -f e2e/karate/pom.xml clean test -Dkarate.env="${KARATE_ENV_VALUE}" -Dkarate.options="${KARATE_OPTIONS_VALUE}"
+          else
+            mvn -B -ntp -f e2e/karate/pom.xml clean test -Dkarate.env="${KARATE_ENV_VALUE}" -Dkarate.options="${KARATE_OPTIONS_VALUE}"
+          fi
+          first_exit=$?
+          rerun_exit=""
+
+          if [[ "${DEMO_MODE}" == "flaky_test" && "${first_exit}" -ne 0 ]]; then
+            APP_PORT="${APP_PORT}" mvn -B -ntp -f e2e/karate/pom.xml test -Dkarate.env=local -Dkarate.options="--tags @judge-flaky"
+            rerun_exit=$?
+          fi
+
+          printf "{\n" > judge-run-metadata.json
+          printf "  \"repository\": \"%s\",\n" "${GITHUB_REPOSITORY}" >> judge-run-metadata.json
+          printf "  \"workflow\": \"%s\",\n" "${GITHUB_WORKFLOW}" >> judge-run-metadata.json
+          printf "  \"job\": \"%s\",\n" "${GITHUB_JOB}" >> judge-run-metadata.json
+          printf "  \"ref\": \"%s\",\n" "${GITHUB_HEAD_REF:-${GITHUB_REF_NAME}}" >> judge-run-metadata.json
+          printf "  \"sha\": \"%s\",\n" "${GITHUB_SHA}" >> judge-run-metadata.json
+          printf "  \"scenario_mode\": \"%s\",\n" "${DEMO_MODE}" >> judge-run-metadata.json
+          printf "  \"karate_env\": \"%s\",\n" "${KARATE_ENV_VALUE}" >> judge-run-metadata.json
+          printf "  \"karate_options\": \"%s\",\n" "${KARATE_OPTIONS_VALUE}" >> judge-run-metadata.json
+          printf "  \"app_port\": \"%s\",\n" "${APP_PORT_VALUE:-}" >> judge-run-metadata.json
+          printf "  \"readiness_ok\": %s,\n" "${READINESS_OK:-0}" >> judge-run-metadata.json
+          printf "  \"first_run_exit_code\": %s,\n" "${first_exit}" >> judge-run-metadata.json
+          if [[ -n "${rerun_exit}" ]]; then
+            printf "  \"rerun_exit_code\": %s\n" "${rerun_exit}" >> judge-run-metadata.json
+          else
+            printf "  \"rerun_exit_code\": null\n" >> judge-run-metadata.json
+          fi
+          printf "}\n" >> judge-run-metadata.json
+
+          echo "first_exit=${first_exit}" >> "$GITHUB_OUTPUT"
+          if [[ -n "${rerun_exit}" ]]; then
+            echo "rerun_exit=${rerun_exit}" >> "$GITHUB_OUTPUT"
+          fi
+
+          final_exit="${first_exit}"
+          if [[ -n "${rerun_exit}" && "${rerun_exit}" -eq 0 ]]; then
+            final_exit="${first_exit}"
+          fi
+          exit "${final_exit}"
+
+      - name: Upload Karate diagnostics
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: karate-diagnostics
+          path: |
+            e2e/karate/target/karate-reports/**
+            e2e/karate/target/cucumber-html-reports/**
+            e2e/karate/target/cucumber-result.json
+            e2e/karate/target/surefire-reports/**
+            demo-service.log
+            port-blocker.log
+            demo-service-response.json
+            judge-run-metadata.json
+          if-no-files-found: ignore
+
+      - name: Stop port blocker
+        if: always() && env.PORT_BLOCKER_PID != ''
+        run: kill "$PORT_BLOCKER_PID" || true
+
+      - name: Stop demo service
+        if: always() && env.DEMO_PID != ''
+        run: kill "$DEMO_PID" || true
+
+  karate-failure-triage:
+    name: karate-failure-triage
+    runs-on: ubuntu-latest
+    needs: karate-e2e
+    if: always()
+    env:
+      KARATE_JUDGE_PROVIDER: gemini
+      KARATE_JUDGE_MODEL: ${{ vars.KARATE_JUDGE_MODEL }}
+      KARATE_JUDGE_TIMEOUT_MS: ${{ vars.KARATE_JUDGE_TIMEOUT_MS }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: "20"
+
+      - name: Download Karate diagnostics
+        uses: actions/download-artifact@v8
+        with:
+          name: karate-diagnostics
+          path: judge-artifacts
+
+      - name: Short-circuit when Karate passed
+        if: ${{ needs.karate-e2e.result == 'success' }}
+        run: |
+          {
+            echo "## Karate failure triage"
+            echo
+            echo "Karate passed. No triage was required in this run."
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Build triage input
+        if: ${{ needs.karate-e2e.result != 'success' }}
+        run: |
+          node scripts/judge/build-karate-triage-input.mjs \
+            --demoLog judge-artifacts/demo-service.log \
+            --healthcheck judge-artifacts/demo-service-response.json \
+            --surefireXml judge-artifacts/surefire-reports/TEST-tests.KarateRunnerTest.xml \
+            --surefireTxt judge-artifacts/surefire-reports/tests.KarateRunnerTest.txt \
+            --cucumberJson judge-artifacts/cucumber-result.json \
+            --cucumberJsonDir judge-artifacts/karate-reports/cucumber-json \
+            --runMetadata judge-artifacts/judge-run-metadata.json \
+            --output judge-artifacts/karate-triage-input.json
+
+      - name: Run failure triage judge
+        if: ${{ needs.karate-e2e.result != 'success' }}
+        env:
+          KARATE_JUDGE_API_KEY: ${{ secrets.KARATE_JUDGE_API_KEY }}
+        run: |
+          node scripts/judge/karate-failure-triage.mjs \
+            --input judge-artifacts/karate-triage-input.json \
+            --output judge-artifacts/karate-triage-result.json
+
+      - name: Publish triage annotation and summary
+        if: ${{ needs.karate-e2e.result != 'success' }}
+        run: |
+          annotation_level="$(jq -r '.annotation_level' judge-artifacts/karate-triage-result.json)"
+          category="$(jq -r '.category' judge-artifacts/karate-triage-result.json)"
+          confidence="$(jq -r '.confidence' judge-artifacts/karate-triage-result.json)"
+          summary="$(jq -r '.summary' judge-artifacts/karate-triage-result.json)"
+          reasoning="$(jq -r '.reasoning' judge-artifacts/karate-triage-result.json)"
+          recommendation="$(jq -r '.recommended_action' judge-artifacts/karate-triage-result.json)"
+          evidence="$(jq -r '.evidence[]' judge-artifacts/karate-triage-result.json | sed 's/^/- /')"
+
+          echo "::${annotation_level} title=Karate failure triage::${category} (${confidence}) - ${summary}"
+
+          {
+            echo "## Karate failure triage"
+            echo
+            echo "- **Category:** ${category}"
+            echo "- **Confidence:** ${confidence}"
+            echo "- **Summary:** ${summary}"
+            echo "- **Reasoning:** ${reasoning}"
+            echo "- **Recommended action:** ${recommendation}"
+            echo "- **Evidence:**"
+            echo "${evidence}"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload triage artifacts
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: karate-failure-triage
+          path: |
+            judge-artifacts/karate-triage-input.json
+            judge-artifacts/karate-triage-result.json
+          if-no-files-found: ignore
