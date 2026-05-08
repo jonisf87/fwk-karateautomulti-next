@@ -132,3 +132,19 @@ try {
 } catch(Exception ex){
     println "[post-generate][WARN] Error en fallback de reemplazo de placeholders: ${ex.message}"
 }
+
+// Final guard: fail fast if any unresolved placeholders remain in generated files.
+def unresolvedPattern = ~/\$\{(groupId|artifactId|version|package|karateVersion)\}/
+def unresolvedFiles = []
+outputDir.eachFileRecurse { f ->
+    if (f.isFile() && (f.name.endsWith('.xml') || f.name.endsWith('.java') || f.name.endsWith('.feature') || f.name.endsWith('.yml') || f.name.endsWith('.yaml'))) {
+        if (f.getText('UTF-8') =~ unresolvedPattern) {
+            unresolvedFiles << f.path
+        }
+    }
+}
+if (unresolvedFiles) {
+    def msg = "[post-generate][ERROR] Unresolved placeholders found in generated files:\n" + unresolvedFiles.collect { "  - $it" }.join('\n')
+    throw new RuntimeException(msg)
+}
+println "[post-generate] All placeholders resolved successfully."

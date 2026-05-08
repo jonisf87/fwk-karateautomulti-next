@@ -47,7 +47,7 @@ jobs:
           -DnewVersion=${{ steps.version.outputs.version }}
           -DgenerateBackupPoms=false
 
-      - name: Install archetype locally
+      - name: Build and install archetype locally
         run: mvn -B -ntp -f code/archetype-karate-e2e/pom.xml clean install
 
       - name: Validate generated project
@@ -72,4 +72,4 @@ jobs:
       - name: Publish archetype to GitHub Packages
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: mvn -B -ntp -f code/archetype-karate-e2e/pom.xml deploy
+        run: mvn -B -ntp -f code/archetype-karate-e2e/pom.xml deploy -DskipTests
