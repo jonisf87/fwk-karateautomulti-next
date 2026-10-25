@@ -1,5 +1,10 @@
 # FWK Karate AutoMulti
 
+[![Shift Left Phase](https://github.com/jonisf87/fwk-karateautomulti-next/actions/workflows/shift-left-phase.yml/badge.svg?branch=main)](https://github.com/jonisf87/fwk-karateautomulti-next/actions/workflows/shift-left-phase.yml)
+[![Contribution Policy](https://github.com/jonisf87/fwk-karateautomulti-next/actions/workflows/contribution-policy.yml/badge.svg?branch=main)](https://github.com/jonisf87/fwk-karateautomulti-next/actions/workflows/contribution-policy.yml)
+
+**Stack:** Java 21 · Spring Boot 4.1 · springdoc 3.2 · Karate 2.1 · JUnit 6 · PIT 1.30 · Checkstyle 14 · Node.js 20 (judge)
+
 Repositorio de referencia para **shift-left**, **branching strategy**, **Conventional Commits**, **mutation testing** y **judge-assisted triage** sobre una base Spring Boot + Karate.
 
 ## Overview
@@ -15,14 +20,14 @@ El alcance activo del repositorio es este:
 
 - Java 21
 - Maven 3.9 o superior
-- Node.js 18 o superior
+- Node.js 20 o superior
 - Git
 
 ## Installation
 
 ```bash
 git clone <repository-url>
-cd fwk-karateautomulti
+cd fwk-karateautomulti-next
 git config core.hooksPath .githooks
 ```
 
@@ -59,7 +64,7 @@ APP_PORT=$APP_PORT mvn -B -ntp -f e2e/karate/pom.xml clean test -Dkarate.env=loc
 ## Structure
 
 ```text
-fwk-karateautomulti/
+fwk-karateautomulti-next/
 ├── .githooks/
 ├── .github/workflows/
 ├── code/
